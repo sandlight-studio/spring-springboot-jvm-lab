@@ -4,4 +4,5 @@ include(
     "boot-app",
     "spring-core-lab",
     "jvm-lab",
+    "lang-lab",
 )
