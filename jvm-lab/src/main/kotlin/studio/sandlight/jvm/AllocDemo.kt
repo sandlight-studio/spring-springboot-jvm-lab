@@ -2,8 +2,7 @@ package studio.sandlight.jvm
 
 import kotlin.system.measureTimeMillis
 
-fun main(args: Array<String>) {
-    val seconds = args.firstOrNull()?.toIntOrNull() ?: 5
+fun allocDemo(seconds: Int = 5) {
     println("Starting allocation demo for ${seconds}s …")
     val data = mutableListOf<ByteArray>()
     val elapsed = measureTimeMillis {
@@ -17,4 +16,3 @@ fun main(args: Array<String>) {
     }
     println("Done. Elapsed: ${elapsed}ms; arrays kept: ${data.size}")
 }
-

@@ -16,5 +16,5 @@ dependencies {
 tasks.withType<Test> { useJUnitPlatform() }
 
 application {
-    mainClass.set("studio.sandlight.jvm.AllocDemoKt")
+    mainClass.set("studio.sandlight.jvm.MainKt")
 }
