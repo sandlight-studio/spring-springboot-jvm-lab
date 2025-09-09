@@ -1,4 +1,4 @@
-# spring-springboot-jvm-demo
+# spring-springboot-jvm-lab
 
 A Kotlin + Spring multi-module monorepo for learning Spring Framework core (no Boot), Spring Boot, and JVM performance tooling (JFR, GC, benchmarking). Gradle (Kotlin DSL), JDK 21, Kotlin 2.0.x.
 

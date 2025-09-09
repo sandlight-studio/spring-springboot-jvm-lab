@@ -1,4 +1,4 @@
-rootProject.name = "spring-springboot-jvm-demo"
+rootProject.name = "spring-springboot-jvm-lab"
 
 include(
     "boot-app",
