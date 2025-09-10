@@ -9,6 +9,7 @@ fun main(args: Array<String>) {
         "collections" -> CollectionsBasics.run()
         "concurrency" -> ConcurrencyBasics.run()
         "io" -> IoBasics.run()
+        "reflection" -> ReflectionBasics.run(args)
         else -> {
             println("Unknown topic: ${args[0]}\n"); printUsage()
         }
@@ -23,12 +24,14 @@ private fun printUsage() {
           collections   - Lists, sets, maps, sequences
           concurrency   - Threads, executor, AtomicInteger
           io            - Files, resources, temp dirs
+          reflection    - Java reflection from basic to expert level
 
         Examples:
           ./gradlew :lang-lab:run --args=strings --quiet
           ./gradlew :lang-lab:run --args=collections --quiet
           ./gradlew :lang-lab:run --args=concurrency --quiet
           ./gradlew :lang-lab:run --args=io --quiet
+          ./gradlew :lang-lab:run --args="reflection basic" --quiet
         """.trimIndent()
     )
 }

@@ -12,16 +12,16 @@ import studio.sandlight.core.lifecycle.PrototypeThing
 @Configuration
 @ComponentScan(basePackageClasses = [AppConfig::class])
 @PropertySource("classpath:app.properties")
-class AppConfig {
+open class AppConfig {
     @Bean
-    fun message(): String = "Hello from Spring Context"
+    open fun message(): String = "Hello from Spring Context"
 
     // Enables @Value placeholders with @PropertySource
     @Bean
-    fun propertySourcesPlaceholderConfigurer(): PropertySourcesPlaceholderConfigurer =
+    open fun propertySourcesPlaceholderConfigurer(): PropertySourcesPlaceholderConfigurer =
         PropertySourcesPlaceholderConfigurer()
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    fun prototypeThing(): PrototypeThing = PrototypeThing()
+    open fun prototypeThing(): PrototypeThing = PrototypeThing()
 }
