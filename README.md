@@ -1,6 +1,13 @@
 # spring-springboot-jvm-lab
 
-A Kotlin + Spring multi-module monorepo for learning Spring Framework core (no Boot), Spring Boot, and JVM performance tooling (JFR, GC, benchmarking). Gradle (Kotlin DSL), JDK 21, Kotlin 2.0.x.
+![JDK](https://img.shields.io/badge/JDK-21-orange?logo=openjdk)
+![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-7F52FF?logo=kotlin)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.7-6DB33F?logo=springboot)
+![Gradle](https://img.shields.io/badge/Gradle-9.1.0-02303A?logo=gradle)
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+A Kotlin + Spring multi-module monorepo for learning Spring Framework core (no Boot), Spring Boot, and JVM performance tooling (JFR, GC, benchmarking). Gradle (Kotlin DSL), JDK 21, Kotlin 2.2.0.
 
 ## Requirements
 - JDK 21 on PATH
