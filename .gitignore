@@ -6,6 +6,7 @@ HELP.md
 !gradle/wrapper/gradle-wrapper.properties
 gradle-app.setting
 .gradletasknamecache
+**/buildSrc/build/
 
 ### IntelliJ IDEA ###
 .idea/
@@ -17,6 +18,25 @@ out/
 ### VS Code ###
 .vscode/
 
+### Eclipse ###
+.classpath
+.project
+.settings/
+
+### Java/Kotlin ###
+*.class
+*.jar
+*.war
+*.ear
+*.log
+hs_err_pid*
+
+### Env/Local ###
+.env
+.env.*
+local.properties
+
 ### OS Files ###
 .DS_Store
 Thumbs.db
+**/.DS_Store
