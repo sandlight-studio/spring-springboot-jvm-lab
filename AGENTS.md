@@ -15,7 +15,7 @@
 - Packaging: `./gradlew :boot-app:bootJar` (fat jar), optional `:boot-app:bootBuildImage`.
 
 ## Coding Style & Naming Conventions
-- Kotlin 2.0, Java 21, Spring Boot 3.5. Use 4‑space indentation.
+- Kotlin 2.3.0, Java 25, Spring Boot 4.0.2, Gradle 9.3.0. Use 4‑space indentation.
 - Packages lowercase; classes `PascalCase`; functions/vars `camelCase`.
 - Keep modules cohesive and layers thin (controller → service → repository).
 - Favor immutability, data classes, and explicit nullability.
