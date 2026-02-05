@@ -1,0 +1,20 @@
+[versions]
+# Toolchain / build tooling
+kotlin = "2.3.0"
+springBoot = "4.0.2"
+springDependencyManagement = "1.1.7"
+
+# Non-Boot modules (explicit pins)
+springFramework = "7.0.3"
+junit = "5.14.1"
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+
+[libraries]
+spring-context = { module = "org.springframework:spring-context", version.ref = "springFramework" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
