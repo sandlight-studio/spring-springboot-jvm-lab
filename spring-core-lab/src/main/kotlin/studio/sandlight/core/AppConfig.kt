@@ -16,10 +16,14 @@ open class AppConfig {
     @Bean
     open fun message(): String = "Hello from Spring Context"
 
-    // Enables @Value placeholders with @PropertySource
-    @Bean
-    open fun propertySourcesPlaceholderConfigurer(): PropertySourcesPlaceholderConfigurer =
-        PropertySourcesPlaceholderConfigurer()
+    companion object {
+        // Enables @Value placeholders with @PropertySource
+        // Static to avoid early @Configuration class instantiation (BeanFactoryPostProcessor lifecycle).
+        @Bean
+        @JvmStatic
+        fun propertySourcesPlaceholderConfigurer(): PropertySourcesPlaceholderConfigurer =
+            PropertySourcesPlaceholderConfigurer()
+    }
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

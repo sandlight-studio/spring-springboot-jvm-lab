@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.2] - 2026-02-05
+
+### Added
+- Add `boot-app` smoke tests for web + JPA behavior (controller, repository, integration-style tests)
+- Introduce Gradle Version Catalog (`gradle/libs.versions.toml`) for centralized version management
+
+### Changed
+- Upgrade repo toolchain baseline to JDK 25
+- Upgrade Gradle wrapper to 9.3.0
+- Upgrade Kotlin to 2.3.0
+- Upgrade Spring Boot to 4.0.2 (Spring Framework 7 generation)
+- Upgrade `spring-core-lab` to Spring Framework 7.0.3
+
+### Fixed
+- Fix Boot 4 `CommandLineRunner` signature override in `DevDataLoader`
+- Fix Spring Core lab `BeanFactoryPostProcessor` lifecycle warning by making `PropertySourcesPlaceholderConfigurer` static
+
 ## [0.0.1] - 2025-10-26
 
 ### Added
@@ -27,5 +44,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CLAUDE.md for AI-assisted development guidance
 - MIT License
 
-[Unreleased]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/compare/v0.0.1...HEAD
+[Unreleased]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/releases/tag/v0.0.1
