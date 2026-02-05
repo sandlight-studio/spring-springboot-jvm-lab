@@ -9,7 +9,7 @@ import studio.sandlight.app.repo.UserRepository
 @Component
 @Profile("dev")
 class DevDataLoader(private val repo: UserRepository) : CommandLineRunner {
-    override fun run(vararg args: String?) {
+    override fun run(vararg args: String) {
         if (repo.count() == 0L) {
             repo.saveAll(
                 listOf(
@@ -20,4 +20,3 @@ class DevDataLoader(private val repo: UserRepository) : CommandLineRunner {
         }
     }
 }
-

@@ -1,9 +1,11 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.spring")
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-    kotlin("plugin.jpa")
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.kotlin.jpa)
 }
 
 group = "studio.sandlight"
@@ -11,10 +13,16 @@ version = "0.0.1-SNAPSHOT"
 description = "Spring Boot demo app"
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
+        // Keep compilation consistent across Java/Kotlin tasks.
+        jvmTarget.set(JvmTarget.JVM_25)
     }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(25)
 }
 
 dependencies {
