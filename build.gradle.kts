@@ -12,5 +12,8 @@ plugins {
 }
 
 allprojects {
-    repositories { mavenCentral() }
+    repositories {
+        maven(url = "https://maven.aliyun.com/repository/public")
+        mavenCentral()
+    }
 }
