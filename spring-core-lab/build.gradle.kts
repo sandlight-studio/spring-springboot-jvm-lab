@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "studio.sandlight"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.2"
 description = "Spring Framework core (no Boot) examples"
 
 kotlin {
