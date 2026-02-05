@@ -1,5 +1,5 @@
 group = "studio.sandlight"
-version = "0.0.1"
+version = "0.0.2"
 description = "Spring + Kotlin multi-module learning monorepo"
 
 plugins {
