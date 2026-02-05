@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.gradle.org)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
