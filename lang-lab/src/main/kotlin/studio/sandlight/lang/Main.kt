@@ -1,5 +1,7 @@
 package studio.sandlight.lang
 
+import studio.sandlight.lang.reflection.ReflectionBasics
+
 fun main(args: Array<String>) {
     if (args.isEmpty()) {
         printUsage(); return
