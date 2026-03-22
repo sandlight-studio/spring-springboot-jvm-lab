@@ -29,4 +29,5 @@ tasks.withType<Test> { useJUnitPlatform() }
 
 application {
     mainClass.set("studio.sandlight.lang.MainKt")
+    applicationDefaultJvmArgs = listOf("--add-opens=java.base/java.lang=ALL-UNNAMED")
 }

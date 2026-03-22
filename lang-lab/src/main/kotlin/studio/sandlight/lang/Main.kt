@@ -4,6 +4,7 @@ import studio.sandlight.lang.collections.CollectionsBasics
 import studio.sandlight.lang.concurrency.ConcurrencyBasics
 import studio.sandlight.lang.io.IoBasics
 import studio.sandlight.lang.reflection.ReflectionBasics
+import studio.sandlight.lang.strings.StringBasics
 
 fun main(args: Array<String>) {
     if (args.isEmpty()) {
@@ -25,7 +26,7 @@ private fun printUsage() {
     println(
         """
         lang-lab topics:
-          strings       - Kotlin string basics and interop
+          strings       - String pool, encoding, Unicode, StringBuilder performance
           collections   - Lists, sets, maps, sequences
           concurrency   - Threads, executor, AtomicInteger
           io            - Files, resources, temp dirs
