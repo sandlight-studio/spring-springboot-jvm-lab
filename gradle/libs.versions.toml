@@ -7,6 +7,7 @@ springDependencyManagement = "1.1.7"
 # Non-Boot modules (explicit pins)
 springFramework = "7.0.3"
 junit = "5.14.1"
+coroutines = "1.10.2"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -18,3 +19,4 @@ spring-dependency-management = { id = "io.spring.dependency-management", version
 [libraries]
 spring-context = { module = "org.springframework:spring-context", version.ref = "springFramework" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
