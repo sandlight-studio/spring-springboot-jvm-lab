@@ -1,6 +1,7 @@
 package studio.sandlight.lang
 
 import studio.sandlight.lang.collections.CollectionsBasics
+import studio.sandlight.lang.concurrency.ConcurrencyBasics
 import studio.sandlight.lang.reflection.ReflectionBasics
 
 fun main(args: Array<String>) {
