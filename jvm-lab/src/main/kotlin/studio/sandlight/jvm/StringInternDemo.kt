@@ -2,16 +2,16 @@ package studio.sandlight.jvm
 
 fun stringInternDemo() {
     val a = "hello"
-    val b = "he" + "llo" // compile-time constant; same interned literal
-    val c = ("he" + System.currentTimeMillis().toString().substring(100.coerceAtMost(0))) + "llo" // ensures not const
-    val d = String("hello".toCharArray()) // new String instance
+    val b = "he" + "llo" // compile-time constant: folded and interned, same pooled object as `a`
+    val c = buildString { append("he"); append("llo") } // built at runtime: equal content, distinct object
+    val d = String("hello".toCharArray()) // explicitly allocated new String instance
 
-    println("a === b (same object)? ${a === b}")
-    println("a === c (same object)? ${a === c}")
-    println("a === d (same object)? ${a === d}")
-    println("a == d  (equal content)? ${a == d}")
+    println("a === b (same object)?   ${a === b}") // true  — both are the pooled literal
+    println("a == c  (equal content)? ${a == c}")  // true
+    println("a === c (same object)?   ${a === c}") // false — runtime-built, not from the pool
+    println("a === d (same object)?   ${a === d}") // false
 
-    val e = d.intern()
-    println("intern(d) === a? ${e === a}")
+    // intern() returns the pooled instance for equal content.
+    println("c.intern() === a?        ${c.intern() === a}") // true
+    println("d.intern() === a?        ${d.intern() === a}") // true
 }
-
