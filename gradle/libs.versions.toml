@@ -6,7 +6,9 @@ springDependencyManagement = "1.1.7"
 
 # Non-Boot modules (explicit pins)
 springFramework = "7.0.3"
-junit = "5.14.1"
+# JUnit 6 unifies Jupiter and Platform under one version; matches what
+# Spring Boot 4's BOM manages, so boot-app and the labs stay in sync.
+junit = "6.0.2"
 coroutines = "1.10.2"
 
 [plugins]
@@ -17,6 +19,24 @@ spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
 
 [libraries]
+# Non-Boot modules pin versions explicitly.
 spring-context = { module = "org.springframework:spring-context", version.ref = "springFramework" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+
+# boot-app entries are versionless: Spring Boot's dependency management (BOM)
+# supplies the versions, the catalog just centralizes the coordinates.
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+# Boot 4 modularized test slices: @AutoConfigureMockMvc / @DataJpaTest now
+# ship in per-technology test starters instead of spring-boot-test-autoconfigure.
+spring-boot-starter-webmvc-test = { module = "org.springframework.boot:spring-boot-starter-webmvc-test" }
+spring-boot-starter-data-jpa-test = { module = "org.springframework.boot:spring-boot-starter-data-jpa-test" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
+kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
+h2 = { module = "com.h2database:h2" }

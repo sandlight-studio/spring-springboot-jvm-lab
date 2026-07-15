@@ -9,12 +9,14 @@ import org.springframework.context.annotation.Scope
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer
 import studio.sandlight.core.lifecycle.PrototypeThing
 
+// No manual `open` needed: the kotlin-spring plugin opens @Configuration
+// classes and their @Bean methods so CGLIB can subclass them.
 @Configuration
 @ComponentScan(basePackageClasses = [AppConfig::class])
 @PropertySource("classpath:app.properties")
-open class AppConfig {
+class AppConfig {
     @Bean
-    open fun message(): String = "Hello from Spring Context"
+    fun message(): String = "Hello from Spring Context"
 
     companion object {
         // Enables @Value placeholders with @PropertySource
@@ -27,5 +29,5 @@ open class AppConfig {
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    open fun prototypeThing(): PrototypeThing = PrototypeThing()
+    fun prototypeThing(): PrototypeThing = PrototypeThing()
 }

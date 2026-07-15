@@ -1,33 +1,18 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    application
+    id("sandlight.kotlin-application-conventions")
+    // kotlin-spring's allOpen support opens @Configuration/@Component classes
+    // and @Bean methods automatically, so AppConfig needs no manual `open`.
+    id("org.jetbrains.kotlin.plugin.spring")
 }
 
-group = "studio.sandlight"
-version = "0.0.2"
 description = "Spring Framework core (no Boot) examples"
-
-kotlin {
-    jvmToolchain(25)
-    compilerOptions {
-        // Keep compilation consistent across Java/Kotlin tasks.
-        jvmTarget.set(JvmTarget.JVM_25)
-    }
-}
-
-tasks.withType<JavaCompile>().configureEach {
-    options.release.set(25)
-}
 
 dependencies {
     implementation(libs.spring.context)
 
     testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
-
-tasks.withType<Test> { useJUnitPlatform() }
 
 application {
     mainClass.set("studio.sandlight.core.MainKt")
