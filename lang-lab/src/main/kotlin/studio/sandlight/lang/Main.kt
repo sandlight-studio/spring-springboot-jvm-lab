@@ -1,38 +1,46 @@
 package studio.sandlight.lang
 
+import studio.sandlight.lang.collections.CollectionsBasics
+import studio.sandlight.lang.concurrency.ConcurrencyBasics
+import studio.sandlight.lang.io.IoBasics
+import studio.sandlight.lang.kotlin.KotlinBasics
+import studio.sandlight.lang.reflection.ReflectionBasics
+import studio.sandlight.lang.strings.StringBasics
+import studio.sandlight.lang.support.Topic
+import studio.sandlight.lang.support.run
+
+// Single registry: usage text and dispatch are both derived from this list,
+// so adding a topic is one line. (Also drives the smoke tests.)
+internal val topics: List<Topic> = listOf(
+    StringBasics,
+    CollectionsBasics,
+    ConcurrencyBasics,
+    IoBasics,
+    ReflectionBasics,
+    KotlinBasics,
+)
+
 fun main(args: Array<String>) {
-    if (args.isEmpty()) {
-        printUsage(); return
+    val topic = topics.find { it.name == args.getOrNull(0)?.lowercase() }
+    if (topic == null) {
+        if (args.isNotEmpty()) println("Unknown topic: ${args[0]}\n")
+        printUsage()
+        return
     }
-    when (args[0].lowercase()) {
-        "strings" -> StringBasics.run()
-        "collections" -> CollectionsBasics.run()
-        "concurrency" -> ConcurrencyBasics.run()
-        "io" -> IoBasics.run()
-        "reflection" -> ReflectionBasics.run(args)
-        else -> {
-            println("Unknown topic: ${args[0]}\n"); printUsage()
-        }
-    }
+    topic.run(args.getOrNull(1))
 }
 
 private fun printUsage() {
+    println("lang-lab topics (usage: <topic> [level]):")
+    topics.forEach { println("  ${it.name.padEnd(13)} - ${it.description}") }
     println(
         """
-        lang-lab topics:
-          strings       - Kotlin string basics and interop
-          collections   - Lists, sets, maps, sequences
-          concurrency   - Threads, executor, AtomicInteger
-          io            - Files, resources, temp dirs
-          reflection    - Java reflection from basic to expert level
 
-        Examples:
+        Every topic runs all levels by default; pick one with a number or name:
           ./gradlew :lang-lab:run --args=strings --quiet
-          ./gradlew :lang-lab:run --args=collections --quiet
-          ./gradlew :lang-lab:run --args=concurrency --quiet
-          ./gradlew :lang-lab:run --args=io --quiet
-          ./gradlew :lang-lab:run --args="reflection basic" --quiet
+          ./gradlew :lang-lab:run --args="strings 1" --quiet
+          ./gradlew :lang-lab:run --args="reflection expert" --quiet
+          ./gradlew :lang-lab:run --args="kotlin coroutines" --quiet
         """.trimIndent()
     )
 }
-

@@ -17,7 +17,7 @@ A Kotlin + Spring multi-module monorepo for learning Spring Framework core (no B
 - `boot-app` — Spring Boot 4 app (web, actuator, validation, JPA/H2).
 - `spring-core-lab` — Plain Spring Framework (ApplicationContext, @Bean, @Component, scopes, events).
 - `jvm-lab` — JVM experiments (allocations, GC/JFR exercises).
-- `lang-lab` — Kotlin/Java language basics (strings, collections, concurrency, IO).
+- `lang-lab` — Kotlin/Java language basics (strings, collections, concurrency, IO, reflection, Kotlin features), organized as 5-level topics.
 
 ## Quick Start
 ```bash
@@ -45,11 +45,15 @@ curl -X POST http://localhost:8080/api/users -H 'Content-Type: application/json'
 ./gradlew :jvm-lab:run --args=daemon --quiet
 ./gradlew :jvm-lab:run --args=volatile --quiet
 
-# Language lab examples
+# Language lab examples (each topic runs all levels; pick one with a number or name)
 ./gradlew :lang-lab:run --args=strings --quiet
 ./gradlew :lang-lab:run --args=collections --quiet
 ./gradlew :lang-lab:run --args=concurrency --quiet
 ./gradlew :lang-lab:run --args=io --quiet
+./gradlew :lang-lab:run --args=reflection --quiet
+./gradlew :lang-lab:run --args=kotlin --quiet
+./gradlew :lang-lab:run --args="strings 1" --quiet
+./gradlew :lang-lab:run --args="kotlin coroutines" --quiet
 ```
 
 ## Build & Test

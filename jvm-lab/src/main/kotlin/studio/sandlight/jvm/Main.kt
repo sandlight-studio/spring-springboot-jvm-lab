@@ -43,7 +43,7 @@ private fun printUsage() {
         jvm-lab demos (choose one):
           alloc [seconds]        - allocate arrays to trigger GC
           classloaders           - show classloader hierarchy
-          stack [depth]          - recursion to observe stack behavior (-Xss)
+          stack [depth]          - real vs tailrec recursion; big depths overflow (-Xss)
           strings                - String pool and interning
           escape [iterations]    - escape analysis microbench
           daemon                 - daemon vs user thread behavior
@@ -53,7 +53,7 @@ private fun printUsage() {
           ./gradlew :jvm-lab:run --args=alloc
           ./gradlew :jvm-lab:run --args="alloc 10"
           ./gradlew :jvm-lab:run --args=classloaders
-          ./gradlew :jvm-lab:run --args="stack 2000" -Dorg.gradle.jvmargs=-Xss256k
+          ./gradlew :jvm-lab:run --args="stack 10000000"   # deep enough to overflow the default stack
           ./gradlew :jvm-lab:run --args="escape 10000000" -Dorg.gradle.jvmargs="-XX:-DoEscapeAnalysis"
         """.trimIndent()
     )

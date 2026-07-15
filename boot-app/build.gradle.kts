@@ -1,50 +1,40 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.spring)
-    alias(libs.plugins.spring.boot)
-    alias(libs.plugins.spring.dependency.management)
-    alias(libs.plugins.kotlin.jpa)
+    id("sandlight.kotlin-common-conventions")
+    // Versionless ids: these plugins are on the buildSrc classpath (see
+    // buildSrc/build.gradle.kts), versions come from gradle/libs.versions.toml.
+    id("org.jetbrains.kotlin.plugin.spring")
+    id("org.jetbrains.kotlin.plugin.jpa")
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
 }
 
-group = "studio.sandlight"
-version = "0.0.2"
 description = "Spring Boot demo app"
 
 kotlin {
-    jvmToolchain(25)
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
-        // Keep compilation consistent across Java/Kotlin tasks.
-        jvmTarget.set(JvmTarget.JVM_25)
+        // Strict nullability for Spring's @NonNull/@Nullable annotations.
+        freeCompilerArgs.add("-Xjsr305=strict")
     }
 }
 
-tasks.withType<JavaCompile>().configureEach {
-    options.release.set(25)
-}
-
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    runtimeOnly("com.h2database:h2")
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.validation)
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.jackson.module.kotlin)
+    implementation(libs.kotlin.reflect)
+    runtimeOnly(libs.h2)
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.starter.webmvc.test)
+    testImplementation(libs.spring.boot.starter.data.jpa.test)
+    testImplementation(libs.kotlin.test.junit5)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 allOpen {
     annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.MappedSuperclass")
     annotation("jakarta.persistence.Embeddable")
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }

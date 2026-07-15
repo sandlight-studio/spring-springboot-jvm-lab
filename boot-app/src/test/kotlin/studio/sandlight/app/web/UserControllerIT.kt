@@ -1,44 +1,56 @@
 package studio.sandlight.app.web
 
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.web.context.WebApplicationContext
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class UserControllerIT(
-    @Autowired private val wac: WebApplicationContext,
+    @param:Autowired private val mvc: MockMvc,
 ) {
 
     @Test
-    fun `POST users creates user and duplicate email returns 400`() {
-        val mvc = MockMvcBuilders.webAppContextSetup(wac).build()
+    fun `POST users creates user and duplicate email returns 409 problem detail`() {
         val email = "it-${System.nanoTime()}@example.com"
         val body = """{"name":"Jane","email":"$email"}"""
 
-        val created = mvc.post("/api/users") {
+        mvc.post("/api/users") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = body
         }.andExpect {
             status { isCreated() }
-        }.andReturn()
+            jsonPath("$.id") { exists() }
+            jsonPath("$.email") { value(email) }
+        }
 
-        assertTrue(created.response.contentAsString.contains(email))
-
-        val duplicate = mvc.post("/api/users") {
+        mvc.post("/api/users") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = body
         }.andExpect {
-            status { isBadRequest() }
-        }.andReturn()
+            status { isConflict() }
+            content { contentType(MediaType.APPLICATION_PROBLEM_JSON) }
+            jsonPath("$.detail") { value("email already exists: $email") }
+        }
+    }
 
-        assertTrue(duplicate.response.contentAsString.contains("email already exists"))
+    @Test
+    fun `POST users with invalid body returns 422 with field errors`() {
+        mvc.post("/api/users") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = """{"name":"","email":"not-an-email"}"""
+        }.andExpect {
+            status { isUnprocessableContent() }
+            content { contentType(MediaType.APPLICATION_PROBLEM_JSON) }
+            jsonPath("$.errors") { isArray() }
+            jsonPath("$.errors[*].field") { exists() }
+        }
     }
 }
-

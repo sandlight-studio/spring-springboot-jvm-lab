@@ -1,24 +1,39 @@
 package studio.sandlight.app.web
 
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.validation.BindException
+import org.springframework.http.ProblemDetail
 import org.springframework.web.bind.MethodArgumentNotValidException
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
+import studio.sandlight.app.service.DuplicateEmailException
 
-@ControllerAdvice
+/**
+ * Error responses use [ProblemDetail] (RFC 9457 "Problem Details"), the
+ * standard Spring 6+ replacement for hand-rolled error DTOs. Returning
+ * ProblemDetail from an @ExceptionHandler makes Spring render it as
+ * `application/problem+json` with the status set once, not duplicated.
+ *
+ * Alternatives worth knowing: extend ResponseEntityExceptionHandler to get
+ * ProblemDetail for all built-in MVC exceptions, or set
+ * `spring.mvc.problemdetails.enabled=true` for framework-level defaults.
+ */
+@RestControllerAdvice
 class GlobalExceptionHandler {
-    data class ErrorResponse(val status: Int, val error: String, val message: String?)
+
+    @ExceptionHandler(DuplicateEmailException::class)
+    fun conflict(e: DuplicateEmailException): ProblemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.message)
 
     @ExceptionHandler(IllegalArgumentException::class, IllegalStateException::class)
-    fun badRequest(e: RuntimeException): ResponseEntity<ErrorResponse> =
-        ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(ErrorResponse(400, "Bad Request", e.message))
+    fun badRequest(e: RuntimeException): ProblemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.message)
 
-    @ExceptionHandler(MethodArgumentNotValidException::class, BindException::class)
-    fun validation(e: Exception): ResponseEntity<ErrorResponse> =
-        ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-            .body(ErrorResponse(422, "Validation Failed", e.message))
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun validation(e: MethodArgumentNotValidException): ProblemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, "Validation failed").apply {
+            // Field-level detail instead of the exception's unreadable message blob.
+            setProperty("errors", e.bindingResult.fieldErrors.map {
+                mapOf("field" to it.field, "message" to it.defaultMessage)
+            })
+        }
 }
-
