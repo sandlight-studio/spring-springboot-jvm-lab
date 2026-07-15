@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3] - 2026-07-15
+
+### Added
+- Add `lang-lab` Kotlin language features topic with 5-level content (data classes through coroutines)
+- Add `lang-lab` reflection topic, split from basics into its own sub-package
+- Add smoke tests for `lang-lab`, `jvm-lab`, and `spring-core-lab`
+- Add `boot-app` service layer, request/response DTOs, and RFC 9457 problem-details error responses
+
+### Changed
+- Extract `buildSrc` convention plugins to centralize build logic across modules
+- Align all modules on JUnit 6 (managed by the Spring Boot 4 BOM)
+- Split `lang-lab` topics (strings, collections, concurrency, IO, reflection) into sub-packages with leveled teaching content
+- Unify `lang-lab` topics behind a Topic/Level registry with a shared console, so usage text, dispatch, and smoke tests derive from one list
+
+### Fixed
+- Fix `jvm-lab` stack, string-intern, and volatile demos so each actually demonstrates its lesson
+
 ## [0.0.2] - 2026-02-05
 
 ### Added
@@ -44,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CLAUDE.md for AI-assisted development guidance
 - MIT License
 
-[Unreleased]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/compare/v0.0.2...HEAD
-[0.0.2]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/compare/v0.0.1...v0.0.2
-[0.0.1]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/releases/tag/v0.0.1
+[Unreleased]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/compare/0.0.3...HEAD
+[0.0.3]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/compare/0.0.2...0.0.3
+[0.0.2]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/compare/0.0.1...0.0.2
+[0.0.1]: https://github.com/sandlight-studio/spring-springboot-jvm-lab/releases/tag/0.0.1
