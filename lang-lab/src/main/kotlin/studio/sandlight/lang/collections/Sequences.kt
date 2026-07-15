@@ -1,12 +1,13 @@
 package studio.sandlight.lang.collections
 
+import studio.sandlight.lang.support.Lab
+import kotlin.system.measureTimeMillis
+
 // LEVEL 3: Sequences — 惰性求值、流水线优化
 
 object Sequences {
 
     fun run() {
-        println("\n🚀 LEVEL 3: SEQUENCES - Lazy Evaluation & Pipeline Optimization")
-        println("=".repeat(65))
 
         demo31EagerVsLazy()
         demo32CreatingSequences()
@@ -39,7 +40,7 @@ object Sequences {
     //                     kotlin/sequences/SequencesJVM.kt
     // ──────────────────────────────────────────────────────────────
     private fun demo31EagerVsLazy() {
-        println("\n--- 3.1 Eager vs Lazy Evaluation ---")
+        Lab.section("3.1", "Eager vs Lazy Evaluation")
 
         val data = (1..10).toList()
 
@@ -81,7 +82,7 @@ object Sequences {
     //   阅读：kotlin/coroutines/Sequence.kt → sequence { }
     // ──────────────────────────────────────────────────────────────
     private fun demo32CreatingSequences() {
-        println("\n--- 3.2 Creating Sequences ---")
+        Lab.section("3.2", "Creating Sequences")
 
         // sequenceOf
         val seq1 = sequenceOf(1, 2, 3, 4, 5)
@@ -136,7 +137,7 @@ object Sequences {
     //   但由 sequenceOf / collection.asSequence() 创建的是可重用的！
     // ──────────────────────────────────────────────────────────────
     private fun demo33InfiniteSequences() {
-        println("\n--- 3.3 Infinite Sequences ---")
+        Lab.section("3.3", "Infinite Sequences")
 
         // Fibonacci sequence
         val fibonacci = generateSequence(Pair(0L, 1L)) { (a, b) -> Pair(b, a + b) }
@@ -196,29 +197,18 @@ object Sequences {
     //            大数据、多步操作时 Sequence 明显占优
     // ──────────────────────────────────────────────────────────────
     private fun demo34WhenToUseSequences() {
-        println("\n--- 3.4 When to Use Sequences ---")
+        Lab.section("3.4", "When to Use Sequences")
 
         val largeData = (1..1_000_000).toList()
 
         // Eager: processes ALL elements in each step
-        val eagerTime = System.nanoTime().let { start ->
-            largeData
-                .filter { it % 3 == 0 }
-                .map { it * it }
-                .take(5)
-                .also { System.nanoTime() - start }
-        }
-        val eagerMs = run {
-            val s = System.nanoTime()
+        val eagerMs = measureTimeMillis {
             largeData.filter { it % 3 == 0 }.map { it * it }.take(5)
-            (System.nanoTime() - s) / 1_000_000
         }
 
         // Lazy: stops after finding 5 results
-        val lazyMs = run {
-            val s = System.nanoTime()
+        val lazyMs = measureTimeMillis {
             largeData.asSequence().filter { it % 3 == 0 }.map { it * it }.take(5).toList()
-            (System.nanoTime() - s) / 1_000_000
         }
 
         println("Large data (1M elements), filter+map+take(5):")

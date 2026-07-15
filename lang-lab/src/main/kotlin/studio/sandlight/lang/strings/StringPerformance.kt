@@ -1,17 +1,19 @@
 package studio.sandlight.lang.strings
 
+import studio.sandlight.lang.support.Lab
+
 import java.util.StringJoiner
 import java.util.stream.Collectors
+import kotlin.system.measureNanoTime
 
 object StringPerformance {
 
     fun run() {
-        println("\n🔤 LEVEL 4: PERFORMANCE & INTERNALS - 字符串性能")
-        compactStrings()
-        stringBuilderInternals()
-        quadraticConcatTrap()
-        stringJoiner()
-        stringDeduplication()
+        demo41CompactStrings()
+        demo42StringBuilderInternals()
+        demo43QuadraticConcatTrap()
+        demo44StringJoiner()
+        demo45StringDeduplication()
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -36,8 +38,8 @@ object StringPerformance {
     //       → private final byte coder  (LATIN1=0, UTF16=1)
     //       → static final boolean COMPACT_STRINGS (= true by default)
     // ──────────────────────────────────────────────────────────────
-    private fun compactStrings() {
-        println("\n--- 4.1 Compact Strings (Java 9+) ---")
+    private fun demo41CompactStrings() {
+        Lab.section("4.1", "Compact Strings (Java 9+)")
 
         val valueField = String::class.java.getDeclaredField("value").also { it.isAccessible = true }
         val coderField = String::class.java.getDeclaredField("coder").also { it.isAccessible = true }
@@ -73,8 +75,8 @@ object StringPerformance {
     //       → ensureCapacityInternal(minimumCapacity)
     //       → Arrays.copyOf(value, newCapacity)  ← the resize
     // ──────────────────────────────────────────────────────────────
-    private fun stringBuilderInternals() {
-        println("\n--- 4.2 StringBuilder Internals ---")
+    private fun demo42StringBuilderInternals() {
+        Lab.section("4.2", "StringBuilder Internals")
 
         val sb = StringBuilder()
         println("Initial capacity: ${sb.capacity()}")
@@ -122,19 +124,20 @@ object StringPerformance {
     //
     // 阅读: kotlinc decompile shows INVOKESPECIAL StringBuilder.<init> inside loop
     // ──────────────────────────────────────────────────────────────
-    private fun quadraticConcatTrap() {
-        println("\n--- 4.3 String + in a Loop — O(n²) Trap ---")
+    private fun demo43QuadraticConcatTrap() {
+        Lab.section("4.3", "String + in a Loop — O(n²) Trap")
 
         val n = 5000
 
-        val startA = System.nanoTime()
         var s = ""
-        repeat(n) { s += "x" }
-        val timeA = System.nanoTime() - startA
+        val timeA = measureNanoTime {
+            repeat(n) { s += "x" }
+        }
 
-        val startB = System.nanoTime()
-        val result = buildString { repeat(n) { append("x") } }
-        val timeB = System.nanoTime() - startB
+        var result = ""
+        val timeB = measureNanoTime {
+            result = buildString { repeat(n) { append("x") } }
+        }
 
         val msA = timeA / 1_000_000.0
         val msB = timeB / 1_000_000.0
@@ -161,8 +164,8 @@ object StringPerformance {
     // 阅读: java.util.StringJoiner → merge() — efficient joining without intermediate strings
     //       java.util.stream.Collectors → joining() → uses StringJoiner internally
     // ──────────────────────────────────────────────────────────────
-    private fun stringJoiner() {
-        println("\n--- 4.4 StringJoiner / joinToString ---")
+    private fun demo44StringJoiner() {
+        Lab.section("4.4", "StringJoiner / joinToString")
 
         val joiner = StringJoiner(", ", "[", "]")
         (1..5).forEach { joiner.add(it.toString()) }
@@ -213,8 +216,8 @@ object StringPerformance {
     //
     // 阅读: share/gc/g1/g1StringDedup.cpp in OpenJDK source
     // ──────────────────────────────────────────────────────────────
-    private fun stringDeduplication() {
-        println("\n--- 4.5 String Deduplication (G1 GC) ---")
+    private fun demo45StringDeduplication() {
+        Lab.section("4.5", "String Deduplication (G1 GC)")
 
         val list = List(1000) { "repeated-value" }
         println("Created ${list.size} strings with content: '${list[0]}'")

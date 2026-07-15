@@ -1,17 +1,18 @@
 package studio.sandlight.lang.strings
 
+import studio.sandlight.lang.support.Lab
+
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 
 object StringEncoding {
 
     fun run() {
-        println("\n🔤 LEVEL 3: ENCODING & UNICODE - 字符编码")
-        charsetBasics()
-        utf8VariableWidth()
-        codePointsVsChars()
-        surrogatePairs()
-        charsetConversionPitfalls()
+        demo31CharsetBasics()
+        demo32Utf8VariableWidth()
+        demo33CodePointsVsChars()
+        demo34SurrogatePairs()
+        demo35CharsetConversionPitfalls()
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -34,8 +35,8 @@ object StringEncoding {
     // 阅读: java.nio.charset.Charset → decode() / encode() → CharsetDecoder / CharsetEncoder
     //       java.nio.charset.StandardCharsets → well-known constant charsets
     // ──────────────────────────────────────────────────────────────
-    private fun charsetBasics() {
-        println("\n--- 3.1 Charset Basics ---")
+    private fun demo31CharsetBasics() {
+        Lab.section("3.1", "Charset Basics")
 
         println("Platform default charset: ${Charset.defaultCharset().name()}")
 
@@ -71,8 +72,8 @@ object StringEncoding {
     //
     // 阅读: RFC 3629 (UTF-8 spec) — or java.nio.charset.UTF_8 source
     // ──────────────────────────────────────────────────────────────
-    private fun utf8VariableWidth() {
-        println("\n--- 3.2 UTF-8 Variable-Width Encoding ---")
+    private fun demo32Utf8VariableWidth() {
+        Lab.section("3.2", "UTF-8 Variable-Width Encoding")
 
         val samples = listOf("A", "中", "🍀", "Hello, 世界!")
         for (sample in samples) {
@@ -102,8 +103,8 @@ object StringEncoding {
     // 阅读: java.lang.Character → isHighSurrogate() / isLowSurrogate()
     //       java.lang.String → codePointAt(index) / codePoints() stream
     // ──────────────────────────────────────────────────────────────
-    private fun codePointsVsChars() {
-        println("\n--- 3.3 Code Points vs Chars ---")
+    private fun demo33CodePointsVsChars() {
+        Lab.section("3.3", "Code Points vs Chars")
 
         val str = "Hello, 🍀👋中文"
         println("String: \"$str\"")
@@ -123,8 +124,8 @@ object StringEncoding {
     }
 
     // 3.4 Surrogate Pairs
-    private fun surrogatePairs() {
-        println("\n--- 3.4 Surrogate Pairs ---")
+    private fun demo34SurrogatePairs() {
+        Lab.section("3.4", "Surrogate Pairs")
 
         val clover = "🍀"
         val high = clover[0]
@@ -158,8 +159,8 @@ object StringEncoding {
     //        → causes phantom character at start of first line
     //
     // ──────────────────────────────────────────────────────────────
-    private fun charsetConversionPitfalls() {
-        println("\n--- 3.5 Charset Conversion Pitfalls — Mojibake (文字化け) ---")
+    private fun demo35CharsetConversionPitfalls() {
+        Lab.section("3.5", "Charset Conversion Pitfalls — Mojibake (文字化け)")
 
         val cjk = "中文"
         val utf8Bytes = cjk.toByteArray(Charsets.UTF_8)

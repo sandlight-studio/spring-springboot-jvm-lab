@@ -1,5 +1,7 @@
 package studio.sandlight.lang.concurrency
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 3: Atomic Operations & Java Memory Model — 原子操作与内存模型
 
 import java.util.concurrent.CountDownLatch
@@ -8,12 +10,11 @@ import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.atomic.AtomicStampedReference
 import java.util.concurrent.atomic.LongAdder
+import kotlin.system.measureTimeMillis
 
 object AtomicAndMemoryModel {
 
     fun run() {
-        println("\n⚛️  LEVEL 3: ATOMIC OPERATIONS & JAVA MEMORY MODEL - 原子操作与内存模型")
-        println("=".repeat(60))
 
         demo31AtomicIntegerBasics()
         demo32CasAndAba()
@@ -44,7 +45,7 @@ object AtomicAndMemoryModel {
     //       → JDK 9+: VarHandle.compareAndSet() 取代 Unsafe
     // ──────────────────────────────────────────────────────────────
     private fun demo31AtomicIntegerBasics() {
-        println("\n--- 3.1 AtomicInteger Basics ---")
+        Lab.section("3.1", "AtomicInteger Basics")
 
         // Thread-safe counter: 4 threads × 100_000 increments = 400_000
         val counter = AtomicInteger(0)
@@ -115,7 +116,7 @@ object AtomicAndMemoryModel {
     //       → compareAndSet(expected, new, expectedStamp, newStamp)
     // ──────────────────────────────────────────────────────────────
     private fun demo32CasAndAba() {
-        println("\n--- 3.2 CAS and ABA Problem ---")
+        Lab.section("3.2", "CAS and ABA Problem")
 
         // Manual CAS retry loop — increment without locks
         val value = AtomicInteger(0)
@@ -189,7 +190,7 @@ object AtomicAndMemoryModel {
     //       java.util.concurrent.atomic.Striped64 → longAccumulate()
     // ──────────────────────────────────────────────────────────────
     private fun demo33LongAdderVsAtomicLong() {
-        println("\n--- 3.3 LongAdder vs AtomicLong ---")
+        Lab.section("3.3", "LongAdder vs AtomicLong")
 
         val threads = 8
         val increments = 1_000_000
@@ -197,28 +198,28 @@ object AtomicAndMemoryModel {
         // AtomicLong benchmark
         val atomicLong = AtomicLong(0)
         val latch1 = CountDownLatch(threads)
-        val t1 = System.nanoTime()
-        repeat(threads) {
-            Thread {
-                repeat(increments) { atomicLong.incrementAndGet() }
-                latch1.countDown()
-            }.start()
+        val atomicMs = measureTimeMillis {
+            repeat(threads) {
+                Thread {
+                    repeat(increments) { atomicLong.incrementAndGet() }
+                    latch1.countDown()
+                }.start()
+            }
+            latch1.await()
         }
-        latch1.await()
-        val atomicMs = (System.nanoTime() - t1) / 1_000_000
 
         // LongAdder benchmark
         val longAdder = LongAdder()
         val latch2 = CountDownLatch(threads)
-        val t2 = System.nanoTime()
-        repeat(threads) {
-            Thread {
-                repeat(increments) { longAdder.increment() }
-                latch2.countDown()
-            }.start()
+        val adderMs = measureTimeMillis {
+            repeat(threads) {
+                Thread {
+                    repeat(increments) { longAdder.increment() }
+                    latch2.countDown()
+                }.start()
+            }
+            latch2.await()
         }
-        latch2.await()
-        val adderMs = (System.nanoTime() - t2) / 1_000_000
 
         println("AtomicLong  : ${atomicLong.get()} in ${atomicMs}ms")
         println("LongAdder   : ${longAdder.sum()} in ${adderMs}ms")
@@ -252,7 +253,7 @@ object AtomicAndMemoryModel {
     //       基于 Michael-Scott 队列算法（双 CAS：head + tail）
     // ──────────────────────────────────────────────────────────────
     private fun demo34AtomicReference() {
-        println("\n--- 3.4 AtomicReference — Lock-Free Stack ---")
+        Lab.section("3.4", "AtomicReference — Lock-Free Stack")
 
         val stack = LockFreeStack<Int>()
         val latch = CountDownLatch(4)
@@ -311,7 +312,7 @@ object AtomicAndMemoryModel {
     //         或用 synchronized 保护（unlock hb lock）
     // ──────────────────────────────────────────────────────────────
     private fun demo35JavaMemoryModel() {
-        println("\n--- 3.5 Java Memory Model (JMM) ---")
+        Lab.section("3.5", "Java Memory Model (JMM)")
 
         // Without @Volatile: no happens-before guarantee
         // The JVM / JIT may cache `ready` in a register; reader thread may spin forever.

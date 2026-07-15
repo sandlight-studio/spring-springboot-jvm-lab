@@ -2,6 +2,8 @@
 
 package studio.sandlight.lang.io
 
+import studio.sandlight.lang.support.Lab
+
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.BufferedWriter
@@ -60,7 +62,7 @@ object StreamsAndReaders {
     //       java.io.BufferedInputStream → read() → 首次调用时填充内部 buf[] 数组
     // ──────────────────────────────────────────────────────────────────
     private fun demo11StreamHierarchy() {
-        println("\n=== 1.1 InputStream Decorator Pattern ===")
+        Lab.section("1.1", "InputStream Decorator Pattern")
 
         val data = "Hello, Decorator!".toByteArray()
 
@@ -96,7 +98,7 @@ object StreamsAndReaders {
     // 阅读：java.io.BufferedReader → readLine() → 填充 cb[] 字符缓冲数组
     // ──────────────────────────────────────────────────────────────────
     private fun demo12BufferedReader() {
-        println("\n=== 1.2 BufferedReader ===")
+        Lab.section("1.2", "BufferedReader")
 
         val text = "Line one\nLine two\nLine three"
 
@@ -140,7 +142,7 @@ object StreamsAndReaders {
     // 阅读：java.io.BufferedWriter → flushBuffer() → out.write(cb, 0, nChars)
     // ──────────────────────────────────────────────────────────────────
     private fun demo13BufferedWriter() {
-        println("\n=== 1.3 BufferedWriter ===")
+        Lab.section("1.3", "BufferedWriter")
 
         val tmpFile = Files.createTempFile("streams-demo-", ".txt")
 
@@ -187,14 +189,14 @@ object StreamsAndReaders {
     //       → Charset.newDecoder() → CharsetDecoder.decode()
     // ──────────────────────────────────────────────────────────────────
     private fun demo14CharsetDecoding() {
-        println("\n=== 1.4 Charset Decoding ===")
+        Lab.section("1.4", "Charset Decoding")
 
         val original = "Hello, 世界"
 
         // UTF-8 编码：中文每字符 3 字节
         val utf8Bytes = original.toByteArray(Charsets.UTF_8)
         println("Original string  : \"$original\"")
-        println("UTF-8 byte count : ${utf8Bytes.size}  (ASCII: 7 chars×1B + ',' +' '+ 2 CJK×3B = 7+2+6=15 bytes approx)")
+        println("UTF-8 byte count : ${utf8Bytes.size}  (\"Hello, \" = 7×1B ASCII, \"世界\" = 2×3B CJK → 7+6 = 13)")
 
         // 正确解码：UTF-8 → UTF-8，字符还原
         val correctDecoded = InputStreamReader(ByteArrayInputStream(utf8Bytes), Charsets.UTF_8)
@@ -228,7 +230,7 @@ object StreamsAndReaders {
     //       java.lang.System → initPhase1() → setOut0(newPrintStream(...))
     // ──────────────────────────────────────────────────────────────────
     private fun demo15PrintStream() {
-        println("\n=== 1.5 PrintStream & System.out ===")
+        Lab.section("1.5", "PrintStream & System.out")
 
         // System.out 本身就是 PrintStream
         println("System.out class : ${System.out.javaClass.name}")

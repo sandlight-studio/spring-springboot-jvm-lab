@@ -1,5 +1,8 @@
 package studio.sandlight.lang.kotlin
 
+import studio.sandlight.lang.support.Level
+import studio.sandlight.lang.support.Topic
+
 // ══════════════════════════════════════════════════════════════════
 // Kotlin Language Features — Five Levels
 //
@@ -28,13 +31,14 @@ package studio.sandlight.lang.kotlin
 //   kotlinx.coroutines.flow.FlowKt      → flow builder and operators
 // ══════════════════════════════════════════════════════════════════
 
-object KotlinBasics {
-
-    fun run() {
-        KotlinFundamentals.run()
-        KotlinFunctional.run()
-        KotlinTypeSystem.run()
-        KotlinCoroutines.run()
-        KotlinDsl.run()
-    }
+object KotlinBasics : Topic {
+    override val name = "kotlin"
+    override val description = "Null safety, sealed, generics, coroutines, DSL"
+    override val levels = listOf(
+        Level(1, "fundamentals", "FUNDAMENTALS - Null Safety, Data Class, Extensions, When", KotlinFundamentals::run),
+        Level(2, "functional", "FUNCTIONAL & TYPES - Lambdas, Sealed Classes, Scope Functions", KotlinFunctional::run),
+        Level(3, "typesystem", "TYPE SYSTEM - Generics, Variance, Delegates, Operators", KotlinTypeSystem::run),
+        Level(4, "coroutines", "COROUTINES - 协程 / 结构化并发 / Flow", KotlinCoroutines::run),
+        Level(5, "dsl", "DSL & METAPROGRAMMING - Lambda with Receiver, Reified, Value Class", KotlinDsl::run),
+    )
 }

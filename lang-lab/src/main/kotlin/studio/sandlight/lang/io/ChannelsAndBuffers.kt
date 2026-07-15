@@ -2,6 +2,8 @@
 
 package studio.sandlight.lang.io
 
+import studio.sandlight.lang.support.Lab
+
 import java.nio.ByteBuffer
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
@@ -9,6 +11,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption.*
+import kotlin.system.measureNanoTime
 
 object ChannelsAndBuffers {
 
@@ -70,7 +73,7 @@ object ChannelsAndBuffers {
     // 阅读：java.nio.Buffer → flip() / clear() / compact()
     //       java.nio.ByteBuffer → get() / put() / slice() / duplicate()
     private fun demo31ByteBufferFundamentals() {
-        println("\n=== 3.1 ByteBuffer Fundamentals ===")
+        Lab.section("3.1", "ByteBuffer Fundamentals")
 
         // allocate: position=0, limit=capacity=8
         val buf = ByteBuffer.allocate(8)
@@ -140,7 +143,7 @@ object ChannelsAndBuffers {
     // 阅读：java.nio.channels.FileChannel → read(ByteBuffer) → IOUtil.read()
     //       → pread/read syscall
     private fun demo32FileChannel() {
-        println("\n=== 3.2 FileChannel Read/Write ===")
+        Lab.section("3.2", "FileChannel Read/Write")
 
         val tmpFile: Path = Files.createTempFile("nio-channel-", ".txt")
         try {
@@ -203,7 +206,7 @@ object ChannelsAndBuffers {
     // 阅读：java.nio.channels.FileChannel → transferTo()
     //       → sun.nio.ch.FileChannelImpl.transferToDirectly() → sendfile()
     private fun demo33ChannelTransfer() {
-        println("\n=== 3.3 Channel Transfer (Zero-Copy) ===")
+        Lab.section("3.3", "Channel Transfer (Zero-Copy)")
 
         val srcFile: Path = Files.createTempFile("nio-src-", ".txt")
         val dstFile: Path = Files.createTempFile("nio-dst-", ".txt")
@@ -263,7 +266,7 @@ object ChannelsAndBuffers {
     // 阅读：java.nio.channels.FileChannel → map() → mmap() syscall
     //       java.nio.MappedByteBuffer → force() → msync() syscall
     private fun demo34MemoryMappedFiles() {
-        println("\n=== 3.4 Memory-Mapped Files ===")
+        Lab.section("3.4", "Memory-Mapped Files")
 
         val tmpFile: Path = Files.createTempFile("nio-mmap-", ".txt")
         try {
@@ -324,7 +327,7 @@ object ChannelsAndBuffers {
     // 阅读：java.nio.ByteBuffer → allocateDirect() → DirectByteBuffer
     //       → Unsafe.allocateMemory() → malloc()
     private fun demo35DirectVsHeapBuffers() {
-        println("\n=== 3.5 Direct vs Heap Buffers ===")
+        Lab.section("3.5", "Direct vs Heap Buffers")
 
         val heapBuf = ByteBuffer.allocate(1024)
         val directBuf = ByteBuffer.allocateDirect(1024)
@@ -340,22 +343,22 @@ object ChannelsAndBuffers {
 
         try {
             // Heap buffer write
-            val heapStart = System.nanoTime()
-            FileChannel.open(tmpHeap, WRITE, CREATE, TRUNCATE_EXISTING).use { fc ->
-                val buf = ByteBuffer.wrap(data)      // heap-backed
-                while (buf.hasRemaining()) fc.write(buf)
-            }
-            val heapMs = (System.nanoTime() - heapStart) / 1_000_000.0
+            val heapMs = measureNanoTime {
+                FileChannel.open(tmpHeap, WRITE, CREATE, TRUNCATE_EXISTING).use { fc ->
+                    val buf = ByteBuffer.wrap(data)      // heap-backed
+                    while (buf.hasRemaining()) fc.write(buf)
+                }
+            } / 1_000_000.0
 
             // Direct buffer write
-            val directStart = System.nanoTime()
-            FileChannel.open(tmpDirect, WRITE, CREATE, TRUNCATE_EXISTING).use { fc ->
-                val buf = ByteBuffer.allocateDirect(oneMB)
-                buf.put(data)
-                buf.flip()
-                while (buf.hasRemaining()) fc.write(buf)
-            }
-            val directMs = (System.nanoTime() - directStart) / 1_000_000.0
+            val directMs = measureNanoTime {
+                FileChannel.open(tmpDirect, WRITE, CREATE, TRUNCATE_EXISTING).use { fc ->
+                    val buf = ByteBuffer.allocateDirect(oneMB)
+                    buf.put(data)
+                    buf.flip()
+                    while (buf.hasRemaining()) fc.write(buf)
+                }
+            } / 1_000_000.0
 
             println(String.format("Heap   buffer write 1 MB: %.2f ms", heapMs))
             println(String.format("Direct buffer write 1 MB: %.2f ms (allocation cost included)", directMs))

@@ -1,5 +1,8 @@
 package studio.sandlight.lang.io
 
+import studio.sandlight.lang.support.Level
+import studio.sandlight.lang.support.Topic
+
 // ══════════════════════════════════════════════════════════════════
 // Java / Kotlin I/O — Four Levels
 //
@@ -31,12 +34,13 @@ package studio.sandlight.lang.io
 //   java.nio.channels.FileChannel → transferTo() / map()
 // ══════════════════════════════════════════════════════════════════
 
-object IoBasics {
-
-    fun run() {
-        StreamsAndReaders.run()
-        NioFiles.run()
-        ChannelsAndBuffers.run()
-        ResourcesAndExtensions.run()
-    }
+object IoBasics : Topic {
+    override val name = "io"
+    override val description = "Streams, NIO.2 files, channels, resources"
+    override val levels = listOf(
+        Level(1, "streams", "CLASSIC java.io - Streams, Readers, Decorator Pattern", StreamsAndReaders::run),
+        Level(2, "files", "NIO.2 FILES - Path / Files API (Java 7+)", NioFiles::run),
+        Level(3, "channels", "CHANNELS & BUFFERS - FileChannel, ByteBuffer, Zero-Copy", ChannelsAndBuffers::run),
+        Level(4, "resources", "RESOURCES & KOTLIN EXTENSIONS - Classpath, Serialization, kotlin.io", ResourcesAndExtensions::run),
+    )
 }

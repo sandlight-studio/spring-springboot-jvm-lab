@@ -1,5 +1,8 @@
 package studio.sandlight.lang.strings
 
+import studio.sandlight.lang.support.Level
+import studio.sandlight.lang.support.Topic
+
 // ══════════════════════════════════════════════════════════════════
 // Kotlin / Java String — Four Levels
 //
@@ -29,12 +32,13 @@ package studio.sandlight.lang.strings
 //   java.nio.charset.StandardCharsets → UTF_8 / ISO_8859_1 / US_ASCII
 // ══════════════════════════════════════════════════════════════════
 
-object StringBasics {
-
-    fun run() {
-        StringFundamentals.run()
-        StringOperations.run()
-        StringEncoding.run()
-        StringPerformance.run()
-    }
+object StringBasics : Topic {
+    override val name = "strings"
+    override val description = "String pool, encoding, Unicode, StringBuilder performance"
+    override val levels = listOf(
+        Level(1, "fundamentals", "STRING FUNDAMENTALS - 字符串基础", StringFundamentals::run),
+        Level(2, "operations", "STRING OPERATIONS - 字符串操作", StringOperations::run),
+        Level(3, "encoding", "ENCODING & UNICODE - 字符编码", StringEncoding::run),
+        Level(4, "performance", "PERFORMANCE & INTERNALS - 字符串性能", StringPerformance::run),
+    )
 }

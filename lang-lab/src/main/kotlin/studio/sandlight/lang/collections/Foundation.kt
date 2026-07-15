@@ -1,12 +1,12 @@
 package studio.sandlight.lang.collections
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 1: Foundation — 集合类型、不变性的本质、基本操作
 
 object Foundation {
 
     fun run() {
-        println("\n🏗️  LEVEL 1: FOUNDATION - Collection Types & Basics")
-        println("=".repeat(60))
 
         demo11CollectionTypes()
         demo12ImmutabilityIllusion()
@@ -38,7 +38,7 @@ object Foundation {
     //       java.base/java/util/Arrays.java      → asList()
     // ──────────────────────────────────────────────────────────────
     private fun demo11CollectionTypes() {
-        println("\n--- 1.1 Collection Types & JVM Backing Classes ---")
+        Lab.section("1.1", "Collection Types & JVM Backing Classes")
 
         // List
         val immList   = listOf(1, 2, 3)
@@ -94,7 +94,7 @@ object Foundation {
     // 真正不可变的集合需要用第三方库，如 kotlinx.collections.immutable
     // ──────────────────────────────────────────────────────────────
     private fun demo12ImmutabilityIllusion() {
-        println("\n--- 1.2 Immutability — Compile-time vs Runtime ---")
+        Lab.section("1.2", "Immutability — Compile-time vs Runtime")
 
         val readOnly = listOf("a", "b", "c")
         println("Read-only list: $readOnly  (type: ${readOnly.javaClass.name})")
@@ -139,7 +139,7 @@ object Foundation {
     //        entries / keys / values — all are live views
     // ──────────────────────────────────────────────────────────────
     private fun demo13BasicOperations() {
-        println("\n--- 1.3 Basic Operations ---")
+        Lab.section("1.3", "Basic Operations")
 
         val items = listOf(
             Item("Apple",  1.5,  "fruit"),
@@ -183,7 +183,7 @@ object Foundation {
     //   List       → component1()..component5() 预定义（仅前5个）
     // ──────────────────────────────────────────────────────────────
     private fun demo14Destructuring() {
-        println("\n--- 1.4 Destructuring ---")
+        Lab.section("1.4", "Destructuring")
 
         // data class destructuring
         val item = Item("Mango", 3.0, "fruit")

@@ -1,5 +1,7 @@
 package studio.sandlight.lang.kotlin
 
+import studio.sandlight.lang.support.Lab
+
 // ══════════════════════════════════════════════════════════════════
 // LEVEL 2: 函数式 & 类型系统
 //
@@ -74,7 +76,7 @@ object KotlinFunctional {
     // Kotlin stdlib source: kotlin/collections/_Collections.kt
     // ──────────────────────────────────────────────────────────────
     private fun demo21LambdaAndHigherOrder() {
-        println("\n--- 2.1 Lambda & Higher-Order Functions ---")
+        Lab.section("2.1", "Lambda & Higher-Order Functions")
 
         // --- function types ---
         val add: (Int, Int) -> Int = { a, b -> a + b }
@@ -166,7 +168,7 @@ object KotlinFunctional {
     //   kotlin.sequences.TakeSequence          → wraps take(), terminates
     // ──────────────────────────────────────────────────────────────
     private fun demo22Sequences() {
-        println("\n--- 2.2 Sequences — Lazy Evaluation ---")
+        Lab.section("2.2", "Sequences — Lazy Evaluation")
 
         // --- lazy pipeline on a large range ---
         val lazyResult = (1..1_000_000)
@@ -242,7 +244,7 @@ object KotlinFunctional {
     //
     // ──────────────────────────────────────────────────────────────
     private fun demo23SealedClass() {
-        println("\n--- 2.3 Sealed Class ---")
+        Lab.section("2.3", "Sealed Class")
 
         fun divide(a: Int, b: Int): Result<Int> =
             if (b == 0) Result.Failure("Division by zero") else Result.Success(a / b)
@@ -291,7 +293,7 @@ object KotlinFunctional {
     // Kotlin stdlib: kotlin/Util.kt → let, apply, also, run, with
     // ──────────────────────────────────────────────────────────────
     private fun demo24ScopeFunctions() {
-        println("\n--- 2.4 Scope Functions ---")
+        Lab.section("2.4", "Scope Functions")
 
         // Print reference table
         println("""

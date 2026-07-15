@@ -1,12 +1,12 @@
 package studio.sandlight.lang.collections
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 2: Functional — 变换、聚合、分组、排序
 
 object Functional {
 
     fun run() {
-        println("\n⚡ LEVEL 2: FUNCTIONAL - Transformations, Aggregation, Grouping")
-        println("=".repeat(65))
 
         demo21Transformations()
         demo22Filtering()
@@ -34,7 +34,7 @@ object Functional {
     // 阅读：kotlin/collections/_Collections.kt → map { } / flatMap { }
     // ──────────────────────────────────────────────────────────────
     private fun demo21Transformations() {
-        println("\n--- 2.1 Transformations ---")
+        Lab.section("2.1", "Transformations")
 
         val products = listOf(
             Item("Apple",  1.5,  "fruit"),
@@ -77,7 +77,7 @@ object Functional {
     //   等价于 filter { it is T }.map { it as T }，但更高效
     // ──────────────────────────────────────────────────────────────
     private fun demo22Filtering() {
-        println("\n--- 2.2 Filtering ---")
+        Lab.section("2.2", "Filtering")
 
         val numbers = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
@@ -119,7 +119,7 @@ object Functional {
     // 阅读：kotlin/collections/_Collections.kt → fold(), reduce()
     // ──────────────────────────────────────────────────────────────
     private fun demo23Aggregation() {
-        println("\n--- 2.3 Aggregation ---")
+        Lab.section("2.3", "Aggregation")
 
         val nums = listOf(1, 2, 3, 4, 5)
 
@@ -173,7 +173,7 @@ object Functional {
     //     适合计算相邻差值
     // ──────────────────────────────────────────────────────────────
     private fun demo24GroupingAndAssociation() {
-        println("\n--- 2.4 Grouping & Association ---")
+        Lab.section("2.4", "Grouping & Association")
 
         val products = listOf(
             Item("Apple",  1.5,  "fruit"),
@@ -239,7 +239,7 @@ object Functional {
     // 底层：java.util.Arrays.sort() (TimSort，稳定排序 O(n log n))
     // ──────────────────────────────────────────────────────────────
     private fun demo25Sorting() {
-        println("\n--- 2.5 Sorting ---")
+        Lab.section("2.5", "Sorting")
 
         val products = listOf(
             Item("Apple",    1.5,  "fruit"),
@@ -281,7 +281,7 @@ object Functional {
     //   find ↔ stream.filter().findFirst().orElse(null)
     // ──────────────────────────────────────────────────────────────
     private fun demo26ExistenceChecks() {
-        println("\n--- 2.6 Existence Checks ---")
+        Lab.section("2.6", "Existence Checks")
 
         val products = listOf(
             Item("Apple",  1.5,  "fruit"),

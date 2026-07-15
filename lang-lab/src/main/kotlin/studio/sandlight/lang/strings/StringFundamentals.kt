@@ -1,11 +1,12 @@
 package studio.sandlight.lang.strings
 
+import studio.sandlight.lang.support.Lab
+
 import java.nio.charset.StandardCharsets
 
 object StringFundamentals {
 
     fun run() {
-        println("\n🔤 LEVEL 1: STRING FUNDAMENTALS - 字符串基础")
         demo11StringPoolAndInterning()
         demo12EqualityVsIdentity()
         demo13ImmutabilityAndCompactStrings()
@@ -28,7 +29,7 @@ object StringFundamentals {
         //       JVM flag: -XX:StringTableSize=65536 (default bucket count)
         // ──────────────────────────────────────────────────────────────
 
-        println("\n--- 1.1 String Pool & Interning ---")
+        Lab.section("1.1", "String Pool & Interning")
 
         val a = "Hello"                              // literal, goes to pool
         val b = "Hel" + "lo"                         // javac folds at compile time → same pool entry
@@ -49,7 +50,7 @@ object StringFundamentals {
     }
 
     private fun demo12EqualityVsIdentity() {
-        println("\n--- 1.2 Equality vs Identity ---")
+        Lab.section("1.2", "Equality vs Identity")
 
         val literal1 = "abc"
         val literal2 = "abc"
@@ -87,7 +88,7 @@ object StringFundamentals {
         //       → coder field → encode(char[]) chooses storage format
         // ──────────────────────────────────────────────────────────────
 
-        println("\n--- 1.3 Immutability & Compact Strings (Java 9+) ---")
+        Lab.section("1.3", "Immutability & Compact Strings (Java 9+)")
 
         val latin1Str = "Hello"
         val utf16Str = "中文"
@@ -123,7 +124,7 @@ object StringFundamentals {
     }
 
     private fun demo14StringCreationAPIs() {
-        println("\n--- 1.4 String Creation APIs ---")
+        Lab.section("1.4", "String Creation APIs")
 
         // Literal
         val literal = "Hello, World!"

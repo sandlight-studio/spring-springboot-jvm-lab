@@ -1,5 +1,7 @@
 package studio.sandlight.lang.kotlin
 
+import studio.sandlight.lang.support.Lab
+
 // ══════════════════════════════════════════════════════════════════
 // LEVEL 5: Kotlin DSL & Metaprogramming
 //
@@ -134,7 +136,7 @@ object KotlinDsl {
     // Kotlin stdlib: kotlin.text.buildString, kotlin.collections.buildList
     // ──────────────────────────────────────────────────────────────
     private fun demo51LambdaWithReceiver() {
-        println("\n--- 5.1 Lambda with Receiver ---")
+        Lab.section("5.1", "Lambda with Receiver")
 
         // Basic DSL usage — title/paragraph are HtmlBuilder members,
         // but inside the lambda braces we call them without any prefix.
@@ -210,7 +212,7 @@ object KotlinDsl {
     // 阅读: kotlin.reflect.typeOf  (returns KType with full generic info)
     // ──────────────────────────────────────────────────────────────
     private fun demo52ReifiedTypeParameters() {
-        println("\n--- 5.2 Reified Type Parameters ---")
+        Lab.section("5.2", "Reified Type Parameters")
 
         // filterIsInstance<T> — built-in reified example from stdlib.
         // The compiler inlines the check `it is String` at the call site.
@@ -286,7 +288,7 @@ object KotlinDsl {
     //       javap on compiled class shows unboxed method signatures
     // ──────────────────────────────────────────────────────────────
     private fun demo53ValueClasses() {
-        println("\n--- 5.3 Value Classes ---")
+        Lab.section("5.3", "Value Classes")
 
         // Amount and UserId — type-safe wrappers around Long.
         val price  = Amount(1999L)   // 19.99 USD in cents

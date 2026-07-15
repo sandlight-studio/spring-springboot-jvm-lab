@@ -1,5 +1,7 @@
 package studio.sandlight.lang.concurrency
 
+import studio.sandlight.lang.support.Lab
+
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import java.util.concurrent.locks.ReentrantReadWriteLock
@@ -20,19 +22,19 @@ import java.util.LinkedList
 object LocksAndConditions {
 
     fun run() {
-        println("=== 2.1 ReentrantLock vs synchronized ===")
+        Lab.section("2.1", "ReentrantLock vs synchronized")
         demo21ReentrantLock()
 
-        println("\n=== 2.2 ReadWriteLock ===")
+        Lab.section("2.2", "ReadWriteLock")
         demo22ReadWriteLock()
 
-        println("\n=== 2.3 Condition (Producer/Consumer) ===")
+        Lab.section("2.3", "Condition (Producer/Consumer)")
         demo23Condition()
 
-        println("\n=== 2.4 Deadlock Detection & Prevention ===")
+        Lab.section("2.4", "Deadlock Detection & Prevention")
         demo24Deadlock()
 
-        println("\n=== 2.5 StampedLock (Optimistic Read) ===")
+        Lab.section("2.5", "StampedLock (Optimistic Read)")
         demo25StampedLock()
     }
 

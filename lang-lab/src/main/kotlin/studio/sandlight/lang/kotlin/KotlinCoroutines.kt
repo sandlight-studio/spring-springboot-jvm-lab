@@ -1,5 +1,7 @@
 package studio.sandlight.lang.kotlin
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 4: Coroutines — suspend / launch / async / Flow / structured concurrency
 
 import kotlinx.coroutines.*
@@ -9,8 +11,6 @@ import kotlin.system.measureTimeMillis
 object KotlinCoroutines {
 
     fun run() {
-        println("\n\n  LEVEL 4: KOTLIN COROUTINES - 协程 / 结构化并发 / Flow")
-        println("=".repeat(60))
 
         demo41SuspendFunctions()
         demo42CoroutineBuilders()
@@ -54,7 +54,7 @@ object KotlinCoroutines {
     // 阅读: kotlinx.coroutines.internal.BaseContinuationImpl.resumeWith()
     // ──────────────────────────────────────────────────────────────
     private fun demo41SuspendFunctions() {
-        println("\n--- 4.1 suspend Functions ---")
+        Lab.section("4.1", "suspend Functions")
 
         val seqMs = measureTimeMillis {
             runBlocking {
@@ -104,7 +104,7 @@ object KotlinCoroutines {
     //       kotlinx.coroutines.Builders.kt (launch, async, runBlocking)
     // ──────────────────────────────────────────────────────────────
     private fun demo42CoroutineBuilders() {
-        println("\n--- 4.2 Coroutine Builders ---")
+        Lab.section("4.2", "Coroutine Builders")
 
         // launch — Job, fire-and-forget
         runBlocking {
@@ -176,7 +176,7 @@ object KotlinCoroutines {
     //       kotlinx.coroutines.CoroutineScope.cancel()
     // ──────────────────────────────────────────────────────────────
     private fun demo43StructuredConcurrency() {
-        println("\n--- 4.3 Structured Concurrency ---")
+        Lab.section("4.3", "Structured Concurrency")
 
         // Parent-child: parent waits for all children
         runBlocking {
@@ -269,7 +269,7 @@ object KotlinCoroutines {
     //       kotlinx.coroutines.flow.operators (map, filter, flowOn, …)
     // ──────────────────────────────────────────────────────────────
     private fun demo44Flow() {
-        println("\n--- 4.4 Flow — Cold Reactive Stream ---")
+        Lab.section("4.4", "Flow — Cold Reactive Stream")
 
         // Basic flow: emit 1..5, filter odds, square, collect
         println("  Flow pipeline (odd squares from 1..5):")

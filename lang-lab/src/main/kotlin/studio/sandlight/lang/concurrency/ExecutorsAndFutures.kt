@@ -1,5 +1,7 @@
 package studio.sandlight.lang.concurrency
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 4: Executors & Futures — 线程池、协调工具、CompletableFuture
 
 import java.util.concurrent.ArrayBlockingQueue
@@ -15,8 +17,6 @@ import java.util.concurrent.atomic.AtomicInteger
 object ExecutorsAndFutures {
 
     fun run() {
-        println("\n\uD83D\uDE80 LEVEL 4: EXECUTORS & FUTURES - 线程池、协调工具、异步流水线")
-        println("=".repeat(65))
 
         demo41ThreadPoolVariants()
         demo42ThreadPoolExecutor()
@@ -54,7 +54,7 @@ object ExecutorsAndFutures {
     //       java.util.concurrent.ForkJoinPool → work-stealing 双端队列
     // ──────────────────────────────────────────────────────────────
     private fun demo41ThreadPoolVariants() {
-        println("\n--- 4.1 Thread Pool Variants ---")
+        Lab.section("4.1", "Thread Pool Variants")
 
         // Fixed — predictable thread count
         val fixed = Executors.newFixedThreadPool(3)
@@ -133,7 +133,7 @@ object ExecutorsAndFutures {
     //       → addWorker() → Worker.run() → runWorker()
     // ──────────────────────────────────────────────────────────────
     private fun demo42ThreadPoolExecutor() {
-        println("\n--- 4.2 ThreadPoolExecutor Custom Config ---")
+        Lab.section("4.2", "ThreadPoolExecutor Custom Config")
 
         val completed = AtomicInteger(0)
         val callerRan = AtomicInteger(0)
@@ -187,7 +187,7 @@ object ExecutorsAndFutures {
     //       → tryAcquireShared() 等到 state==0 才返回
     // ──────────────────────────────────────────────────────────────
     private fun demo43CountDownLatch() {
-        println("\n--- 4.3 CountDownLatch (fan-out + fan-in) ---")
+        Lab.section("4.3", "CountDownLatch (fan-out + fan-in)")
 
         val workerCount = 5
         val latch = CountDownLatch(workerCount)
@@ -223,7 +223,7 @@ object ExecutorsAndFutures {
     //       → dowait() — 递减 count，最后一个到达时 nextGeneration()
     // ──────────────────────────────────────────────────────────────
     private fun demo44CyclicBarrier() {
-        println("\n--- 4.4 CyclicBarrier (multi-phase computation) ---")
+        Lab.section("4.4", "CyclicBarrier (multi-phase computation)")
 
         val parties = 3
         var phase = 0
@@ -275,7 +275,7 @@ object ExecutorsAndFutures {
     //       → tryAcquireShared() — 尝试递减 permits
     // ──────────────────────────────────────────────────────────────
     private fun demo45Semaphore() {
-        println("\n--- 4.5 Semaphore (connection pool simulation) ---")
+        Lab.section("4.5", "Semaphore (connection pool simulation)")
 
         val permits = 2
         val semaphore = Semaphore(permits)
@@ -331,7 +331,7 @@ object ExecutorsAndFutures {
     //       → BiApply  (thenCombine 节点)
     // ──────────────────────────────────────────────────────────────
     private fun demo46CompletableFuture() {
-        println("\n--- 4.6 CompletableFuture Pipeline ---")
+        Lab.section("4.6", "CompletableFuture Pipeline")
 
         // thenApply chain: fetch → double → to string
         val chain = CompletableFuture.supplyAsync {

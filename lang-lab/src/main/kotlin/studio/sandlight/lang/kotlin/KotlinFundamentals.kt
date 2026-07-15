@@ -1,5 +1,7 @@
 package studio.sandlight.lang.kotlin
 
+import studio.sandlight.lang.support.Lab
+
 // ══════════════════════════════════════════════════════════════════
 // LEVEL 1: Kotlin Fundamentals
 //
@@ -96,7 +98,7 @@ object KotlinFundamentals {
     // Read: kotlin.jvm.internal.Intrinsics.checkNotNullParameter
     // ──────────────────────────────────────────────────────────────
     private fun demo11NullSafety() {
-        println("\n--- 1.1 Null Safety ---")
+        Lab.section("1.1", "Null Safety")
 
         // Non-null vs nullable declaration
         val nonNull: String = "Hello"
@@ -176,7 +178,7 @@ object KotlinFundamentals {
     // participate in equals/hashCode/toString/copy.
     // ──────────────────────────────────────────────────────────────
     private fun demo12DataClass() {
-        println("\n--- 1.2 Data Class ---")
+        Lab.section("1.2", "Data Class")
 
         val p1 = Point(3, 4)
         val p2 = Point(3, 4)
@@ -236,7 +238,7 @@ object KotlinFundamentals {
     //   - Resolve at compile time based on the declared type, not the runtime type
     // ──────────────────────────────────────────────────────────────
     private fun demo13ExtensionFunctions() {
-        println("\n--- 1.3 Extension Functions ---")
+        Lab.section("1.3", "Extension Functions")
 
         // String.isPalindrome
         val words = listOf("racecar", "hello", "level", "kotlin", "civic")
@@ -297,7 +299,7 @@ object KotlinFundamentals {
     // Without @JvmStatic, Java must call: Greeter.Companion.create()
     // ──────────────────────────────────────────────────────────────
     private fun demo14ObjectAndCompanion() {
-        println("\n--- 1.4 Object & Companion Object ---")
+        Lab.section("1.4", "Object & Companion Object")
 
         // AppConfig is a top-level private object — singleton, same instance every time
         println("AppConfig.version    = ${AppConfig.version}")
@@ -343,7 +345,7 @@ object KotlinFundamentals {
     // On a sealed class, the compiler enforces exhaustiveness — no `else` needed.
     // ──────────────────────────────────────────────────────────────
     private fun demo15WhenExpression() {
-        println("\n--- 1.5 When Expression ---")
+        Lab.section("1.5", "When Expression")
 
         // when as expression — returns a value
         fun describe(n: Int): String = when (n) {

@@ -1,5 +1,7 @@
 package studio.sandlight.lang.reflection
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 1: Foundation — Class 对象、字段、方法、构造器
 
 import java.lang.reflect.Modifier
@@ -7,14 +9,12 @@ import java.lang.reflect.Modifier
 object Foundation {
 
     fun run() {
-        println("🎯 LEVEL 1: FOUNDATION - Basic Reflection")
-        println("=".repeat(50))
 
-        demo1ClassObjects()
-        demo2ClassInformation()
-        demo3FieldAccess()
-        demo4MethodInvocation()
-        demo5ConstructorAccess()
+        demo11ClassObjects()
+        demo12ClassInformation()
+        demo13FieldAccess()
+        demo14MethodInvocation()
+        demo15ConstructorAccess()
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -33,8 +33,8 @@ object Foundation {
     //   java.base/java/lang/Class.java → forName() / forName0() (native)
     //   java.base/java/lang/ClassLoader.java → loadClass()
     // ──────────────────────────────────────────────────────────────
-    private fun demo1ClassObjects() {
-        println("\n--- 1.1 Getting Class Objects ---")
+    private fun demo11ClassObjects() {
+        Lab.section("1.1", "Getting Class Objects")
 
         val stringClass1 = Class.forName("java.lang.String")
         println("Class.forName: ${stringClass1.name}")
@@ -64,8 +64,8 @@ object Foundation {
     //                  final=16, synchronized=32 …
     // 阅读：java.base/java/lang/reflect/Modifier.java
     // ──────────────────────────────────────────────────────────────
-    private fun demo2ClassInformation() {
-        println("\n--- 1.2 Basic Class Information ---")
+    private fun demo12ClassInformation() {
+        Lab.section("1.2", "Basic Class Information")
 
         val clazz = SamplePerson::class.java
 
@@ -98,8 +98,8 @@ object Foundation {
     // 阅读：java.base/java/lang/reflect/Field.java
     //       → setAccessible() 实际调用 AccessibleObject.checkAccess()
     // ──────────────────────────────────────────────────────────────
-    private fun demo3FieldAccess() {
-        println("\n--- 1.3 Field Access and Modification ---")
+    private fun demo13FieldAccess() {
+        Lab.section("1.3", "Field Access and Modification")
 
         val person = SamplePerson("John", 25, "secret")
         val clazz = person.javaClass
@@ -152,8 +152,8 @@ object Foundation {
     // 阅读：java.base/java/lang/reflect/Method.java
     //       → invoke() → acquireMethodAccessor() → MethodAccessorImpl
     // ──────────────────────────────────────────────────────────────
-    private fun demo4MethodInvocation() {
-        println("\n--- 1.4 Method Invocation ---")
+    private fun demo14MethodInvocation() {
+        Lab.section("1.4", "Method Invocation")
 
         val person = SamplePerson("Alice", 30, "hidden")
         val clazz = person.javaClass
@@ -192,8 +192,8 @@ object Foundation {
     //
     // 阅读：java.base/java/lang/reflect/Constructor.java
     // ──────────────────────────────────────────────────────────────
-    private fun demo5ConstructorAccess() {
-        println("\n--- 1.5 Constructor Access ---")
+    private fun demo15ConstructorAccess() {
+        Lab.section("1.5", "Constructor Access")
 
         val clazz = SamplePerson::class.java
 

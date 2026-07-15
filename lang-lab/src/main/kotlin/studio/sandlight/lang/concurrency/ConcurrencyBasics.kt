@@ -1,5 +1,8 @@
 package studio.sandlight.lang.concurrency
 
+import studio.sandlight.lang.support.Level
+import studio.sandlight.lang.support.Topic
+
 // ══════════════════════════════════════════════════════════════════
 // Java / Kotlin Concurrency — Four Levels
 //
@@ -33,12 +36,13 @@ package studio.sandlight.lang.concurrency
 //     → UniApply / BiApply — 链式完成节点
 // ══════════════════════════════════════════════════════════════════
 
-object ConcurrencyBasics {
-
-    fun run() {
-        ThreadsAndSync.run()
-        LocksAndConditions.run()
-        AtomicAndMemoryModel.run()
-        ExecutorsAndFutures.run()
-    }
+object ConcurrencyBasics : Topic {
+    override val name = "concurrency"
+    override val description = "Threads, locks, atomics, executors"
+    override val levels = listOf(
+        Level(1, "threads", "THREADS & BASIC SYNCHRONIZATION - 线程与基础同步", ThreadsAndSync::run),
+        Level(2, "locks", "LOCKS & CONDITIONS - ReentrantLock, ReadWriteLock, Condition", LocksAndConditions::run),
+        Level(3, "atomic", "ATOMIC OPERATIONS & JAVA MEMORY MODEL - 原子操作与内存模型", AtomicAndMemoryModel::run),
+        Level(4, "executors", "EXECUTORS & FUTURES - 线程池、协调工具、异步流水线", ExecutorsAndFutures::run),
+    )
 }

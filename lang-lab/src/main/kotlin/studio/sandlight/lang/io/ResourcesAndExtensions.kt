@@ -2,6 +2,8 @@
 
 package studio.sandlight.lang.io
 
+import studio.sandlight.lang.support.Lab
+
 import java.io.*
 import java.nio.charset.Charset
 import java.nio.file.Files
@@ -55,7 +57,7 @@ object ResourcesAndExtensions {
     // 阅读：java.lang.ClassLoader → getResourceAsStream()
     //       → findResource() → 委托父加载器，然后自己找
     private fun demo41ClasspathResources() {
-        println("=== 4.1 Classpath Resources ===")
+        Lab.section("4.1", "Classpath Resources")
 
         // Path with leading / = search from classpath root
         val stream = object {}.javaClass.getResourceAsStream("/sample.txt")
@@ -96,7 +98,7 @@ object ResourcesAndExtensions {
     // 阅读：java.util.Properties → load() → load0()
     //       → LineReader 内部类：读取行，处理转义和注释
     private fun demo42PropertiesFiles() {
-        println("\n=== 4.2 Properties Files ===")
+        Lab.section("4.2", "Properties Files")
 
         // Load from an in-memory string
         val propsText = """
@@ -143,7 +145,7 @@ object ResourcesAndExtensions {
     // 阅读：java.io.ObjectOutputStream → writeObject() → writeOrdinaryObject()
     //       java.io.ObjectStreamClass → serialVersionUID 计算逻辑
     private fun demo43Serialization() {
-        println("\n=== 4.3 Java Serialization ===")
+        Lab.section("4.3", "Java Serialization")
 
         val original = Person(name = "Alice", age = 30, password = "hunter2")
 
@@ -194,7 +196,7 @@ object ResourcesAndExtensions {
     // 阅读：kotlin/io/FilesKt — readText() / forEachLine()
     //       kotlin/io/Closeable.kt — use() 扩展
     private fun demo44KotlinIoExtensions() {
-        println("\n=== 4.4 Kotlin I/O Extensions ===")
+        Lab.section("4.4", "Kotlin I/O Extensions")
 
         val tmp = Files.createTempFile("kotlin-io-", ".txt").toFile()
         try {
@@ -253,7 +255,7 @@ object ResourcesAndExtensions {
     // 阅读：java.lang.System → in (静态字段) → FileInputStream(FileDescriptor.in)
     //       java.io.BufferedInputStream → 包装 System.in 加速读取
     private fun demo45StdinReading() {
-        println("\n=== 4.5 stdin Reading ===")
+        Lab.section("4.5", "stdin Reading")
 
         // Simulate reading from stdin (redirected input) — does NOT block
         val simulatedInput = "line1\nline2\nline3".byteInputStream()

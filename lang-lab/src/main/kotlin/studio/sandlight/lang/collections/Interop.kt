@@ -1,5 +1,7 @@
 package studio.sandlight.lang.collections
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 4: Interop & Advanced — Java 互操作、并发集合、性能特性
 
 import java.util.Collections
@@ -8,12 +10,11 @@ import java.util.PriorityQueue
 import java.util.TreeMap
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
+import kotlin.system.measureTimeMillis
 
 object Interop {
 
     fun run() {
-        println("\n🔬 LEVEL 4: INTEROP & ADVANCED - Java Collections, Concurrency, Performance")
-        println("=".repeat(70))
 
         demo41KotlinJavaConversion()
         demo42JavaCollectionTypes()
@@ -46,7 +47,7 @@ object Interop {
     // 阅读：kotlin/collections/_Collections.kt → toMutableList()
     // ──────────────────────────────────────────────────────────────
     private fun demo41KotlinJavaConversion() {
-        println("\n--- 4.1 Kotlin ↔ Java Collection Conversion ---")
+        Lab.section("4.1", "Kotlin ↔ Java Collection Conversion")
 
         val kotlinList = listOf("a", "b", "c")
 
@@ -89,7 +90,7 @@ object Interop {
     //       java.base/java/util/PriorityQueue.java → siftDown() 堆化
     // ──────────────────────────────────────────────────────────────
     private fun demo42JavaCollectionTypes() {
-        println("\n--- 4.2 Java Collection Types ---")
+        Lab.section("4.2", "Java Collection Types")
 
         // LinkedList as Deque (double-ended queue)
         val deque = LinkedList<String>()
@@ -144,7 +145,7 @@ object Interop {
     //     • kotlinx.collections.immutable (推荐第三方库)
     // ──────────────────────────────────────────────────────────────
     private fun demo43UnmodifiableVsReadOnly() {
-        println("\n--- 4.3 Unmodifiable Views vs Kotlin Read-Only ---")
+        Lab.section("4.3", "Unmodifiable Views vs Kotlin Read-Only")
 
         val mutableSource = mutableListOf(1, 2, 3)
 
@@ -202,7 +203,7 @@ object Interop {
     //           → add() — 查看 setArray(Arrays.copyOf(...))
     // ──────────────────────────────────────────────────────────────
     private fun demo44ConcurrentCollections() {
-        println("\n--- 4.4 Concurrent Collections ---")
+        Lab.section("4.4", "Concurrent Collections")
 
         // CopyOnWriteArrayList — safe for concurrent reads
         val cowList = CopyOnWriteArrayList(listOf("a", "b", "c"))
@@ -263,7 +264,7 @@ object Interop {
     // 阅读：kotlin/collections/ArrayDeque.kt（Kotlin 源码，使用 copyInto 扩容）
     // ──────────────────────────────────────────────────────────────
     private fun demo45ArrayDequeAsStackQueue() {
-        println("\n--- 4.5 ArrayDeque as Stack and Queue ---")
+        Lab.section("4.5", "ArrayDeque as Stack and Queue")
 
         // Stack (LIFO)
         val stack = ArrayDeque<String>()
@@ -332,7 +333,7 @@ object Interop {
     //   ConcurrentHashMap → 比 HashMap 更多元数据，但并发安全
     // ──────────────────────────────────────────────────────────────
     private fun demo46PerformanceCharacteristics() {
-        println("\n--- 4.6 Performance Characteristics ---")
+        Lab.section("4.6", "Performance Characteristics")
 
         val n = 100_000
 
@@ -340,8 +341,8 @@ object Interop {
         val arrayList = ArrayList<Int>((1..n).toList())
         val linkedList = LinkedList<Int>((1..n).toList())
 
-        val alTime = measureMs { repeat(1000) { arrayList[n / 2] } }
-        val llTime = measureMs { repeat(1000) { linkedList[n / 2] } }
+        val alTime = measureTimeMillis { repeat(1000) { arrayList[n / 2] } }
+        val llTime = measureTimeMillis { repeat(1000) { linkedList[n / 2] } }
         println("Random access (index n/2), 1000 times:")
         println("  ArrayList:   ${alTime}ms")
         println("  LinkedList:  ${llTime}ms  (O(n) traversal each time)")
@@ -349,25 +350,20 @@ object Interop {
         // HashSet vs TreeSet: contains()
         val hashSet   = HashSet<Int>((1..n).toList())
         val treeSet   = java.util.TreeSet<Int>((1..n).toList())
-        val hsTime = measureMs { repeat(10_000) { hashSet.contains(n / 2) } }
-        val tsTime = measureMs { repeat(10_000) { treeSet.contains(n / 2) } }
+        val hsTime = measureTimeMillis { repeat(10_000) { hashSet.contains(n / 2) } }
+        val tsTime = measureTimeMillis { repeat(10_000) { treeSet.contains(n / 2) } }
         println("\ncontains() 10,000 times:")
         println("  HashSet:  ${hsTime}ms  (O(1) hash lookup)")
         println("  TreeSet:  ${tsTime}ms  (O(log n) tree traversal)")
 
         // ArrayList prepend — expensive due to shifting
         val al = ArrayList<Int>((1..1000).toList())
-        val alPrependTime = measureMs { repeat(100) { al.add(0, -1) } }
+        val alPrependTime = measureTimeMillis { repeat(100) { al.add(0, -1) } }
         val deque = ArrayDeque<Int>((1..1000).toList())
-        val dqPrependTime = measureMs { repeat(100) { deque.addFirst(-1) } }
+        val dqPrependTime = measureTimeMillis { repeat(100) { deque.addFirst(-1) } }
         println("\nPrepend 100 times:")
         println("  ArrayList[0, elem]: ${alPrependTime}ms  (O(n) shift)")
         println("  ArrayDeque.addFirst: ${dqPrependTime}ms  (O(1) amortized)")
     }
 
-    private fun measureMs(block: () -> Unit): Long {
-        val start = System.nanoTime()
-        block()
-        return (System.nanoTime() - start) / 1_000_000
-    }
 }

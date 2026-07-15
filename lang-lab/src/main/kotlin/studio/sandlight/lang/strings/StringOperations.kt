@@ -1,11 +1,12 @@
 package studio.sandlight.lang.strings
 
+import studio.sandlight.lang.support.Lab
+
 import java.util.Locale
 
 object StringOperations {
 
     fun run() {
-        println("\n🔤 LEVEL 2: STRING OPERATIONS - 字符串操作")
         demo21StringTemplates()
         demo22RawStrings()
         demo23CoreStringApi()
@@ -32,7 +33,7 @@ object StringOperations {
     // 阅读: kotlinc -include-runtime → javap -c → INVOKEVIRTUAL StringBuilder.append
     // ──────────────────────────────────────────────────────────────
     private fun demo21StringTemplates() {
-        println("--- 2.1 String Templates")
+        Lab.section("2.1", "String Templates")
 
         val name = "Kotlin"
         val age = 10
@@ -71,7 +72,7 @@ object StringOperations {
     //   Escaping $ in raw string: use ${'$'}
     // ──────────────────────────────────────────────────────────────
     private fun demo22RawStrings() {
-        println("--- 2.2 Raw Strings")
+        Lab.section("2.2", "Raw Strings")
 
         // trimMargin — each line begins with "|"
         val withMargin = """
@@ -114,7 +115,7 @@ object StringOperations {
     // 2.3 Core String API
     // ──────────────────────────────────────────────────────────────
     private fun demo23CoreStringApi() {
-        println("--- 2.3 Core String API")
+        Lab.section("2.3", "Core String API")
 
         val s = "Hello, World!"
 
@@ -160,7 +161,7 @@ object StringOperations {
     private val dateRegex = Regex("(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})")
 
     private fun demo24Regex() {
-        println("--- 2.4 Regex")
+        Lab.section("2.4", "Regex")
 
         val text = "Contact us at support@example.com or sales@company.org for help."
 
@@ -210,7 +211,7 @@ object StringOperations {
     //       java.util.Locale → getDefault() → system locale
     // ──────────────────────────────────────────────────────────────
     private fun demo25StringFormat() {
-        println("--- 2.5 String.format & Locale sensitivity")
+        Lab.section("2.5", "String.format & Locale sensitivity")
 
         println("%05d:                  " + "%05d".format(42))
         println("%.2f:                  " + "%.2f".format(3.14159))

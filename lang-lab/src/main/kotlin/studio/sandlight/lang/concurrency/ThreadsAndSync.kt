@@ -1,5 +1,7 @@
 package studio.sandlight.lang.concurrency
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 1: Threads & Basic Synchronization — 线程、synchronized、volatile
 
 import java.util.concurrent.atomic.AtomicInteger
@@ -8,8 +10,6 @@ import kotlin.concurrent.thread
 object ThreadsAndSync {
 
     fun run() {
-        println("\n  LEVEL 1: THREADS & BASIC SYNCHRONIZATION - 线程与基础同步")
-        println("=".repeat(60))
 
         demo11ThreadLifecycle()
         demo12ThreadCreation()
@@ -46,7 +46,7 @@ object ThreadsAndSync {
     //       java.lang.Thread#start() → native start0()
     // ──────────────────────────────────────────────────────────────
     private fun demo11ThreadLifecycle() {
-        println("\n--- 1.1 Thread Lifecycle & States ---")
+        Lab.section("1.1", "Thread Lifecycle & States")
 
         val t = Thread {
             Thread.sleep(80)   // TIMED_WAITING during sleep
@@ -78,7 +78,7 @@ object ThreadsAndSync {
     //       kotlin.concurrent.thread() → Thread.kt in kotlin-stdlib
     // ──────────────────────────────────────────────────────────────
     private fun demo12ThreadCreation() {
-        println("\n--- 1.2 Thread Creation — 3 styles ---")
+        Lab.section("1.2", "Thread Creation — 3 styles")
 
         // Style 1: Thread subclass — 继承 Thread
         class WorkerThread : Thread("worker-subclass") {
@@ -133,7 +133,7 @@ object ThreadsAndSync {
     //       java.lang.InterruptedException
     // ──────────────────────────────────────────────────────────────
     private fun demo13ThreadCoordination() {
-        println("\n--- 1.3 Thread Coordination: sleep / join / interrupt ---")
+        Lab.section("1.3", "Thread Coordination: sleep / join / interrupt")
 
         // join() — wait for completion
         val worker = thread(name = "coord-worker", start = false) {
@@ -194,7 +194,7 @@ object ThreadsAndSync {
     //       JVM Spec §6.5: monitorenter / monitorexit
     // ──────────────────────────────────────────────────────────────
     private fun demo14Synchronized() {
-        println("\n--- 1.4 synchronized — Race Condition vs Monitor Lock ---")
+        Lab.section("1.4", "synchronized — Race Condition vs Monitor Lock")
 
         // ── Race condition (unsynchronized) ──
         var unsafeCounter = 0
@@ -245,7 +245,7 @@ object ThreadsAndSync {
     //       java.lang.invoke.VarHandle (JDK 9+) → 更精细的内存语义控制
     // ──────────────────────────────────────────────────────────────
     private fun demo15Volatile() {
-        println("\n--- 1.5 volatile — Visibility vs Atomicity ---")
+        Lab.section("1.5", "volatile — Visibility vs Atomicity")
 
         // ── Visibility: volatile flag stops a spinning loop in another thread ──
         val shared = VolatileFlag()

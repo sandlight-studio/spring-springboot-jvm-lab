@@ -1,5 +1,7 @@
 package studio.sandlight.lang.kotlin
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 3: Type System — 泛型、型变、委托属性、运算符重载
 
 import kotlin.properties.Delegates
@@ -8,14 +10,11 @@ import kotlin.reflect.KProperty
 object KotlinTypeSystem {
 
     fun run() {
-        println("\n═══════════════════════════════════════════════════════════")
-        println("  LEVEL 3: TYPE SYSTEM — Generics, Variance, Delegates, Operators")
-        println("═══════════════════════════════════════════════════════════")
 
-        demoGenericsAndTypeErasure()
-        demoVariance()
-        demoDelegatedProperties()
-        demoOperatorOverloading()
+        demo31GenericsAndTypeErasure()
+        demo32Variance()
+        demo33DelegatedProperties()
+        demo34OperatorOverloading()
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -39,8 +38,8 @@ object KotlinTypeSystem {
     //   kotlin/collections/_Collections.kt → filterIsInstance()
     //   kotlin/jvm/internal/Intrinsics.kt   → checkNotNullParameter()
     // ──────────────────────────────────────────────────────────────
-    private fun demoGenericsAndTypeErasure() {
-        println("\n--- 3.1 Generics & Type Erasure ---")
+    private fun demo31GenericsAndTypeErasure() {
+        Lab.section("3.1", "Generics & Type Erasure")
 
         // At runtime List<String> and List<Int> are the same erasure
         val strings: List<String> = listOf("hello", "world")
@@ -105,8 +104,8 @@ object KotlinTypeSystem {
     //   kotlin/collections/Collections.kt → interface List<out E>
     //   kotlin/Comparable.kt              → interface Comparable<in T>
     // ──────────────────────────────────────────────────────────────
-    private fun demoVariance() {
-        println("\n--- 3.2 Variance (in/out) ---")
+    private fun demo32Variance() {
+        Lab.section("3.2", "Variance (in/out)")
 
         // out T — covariant Producer: Producer<String> is a subtype of Producer<Any>
         val stringProducer: Producer<String> = StringProducer("hello from producer")
@@ -158,8 +157,8 @@ object KotlinTypeSystem {
     //   kotlin/properties/Delegates.kt  → lazy(), observable(), vetoable()
     //   kotlin/reflect/KProperty.kt     → KProperty, KMutableProperty
     // ──────────────────────────────────────────────────────────────
-    private fun demoDelegatedProperties() {
-        println("\n--- 3.3 Delegated Properties ---")
+    private fun demo33DelegatedProperties() {
+        Lab.section("3.3", "Delegated Properties")
 
         // ── by lazy ──────────────────────────────────────────────
         println("\n[by lazy]")
@@ -209,8 +208,8 @@ object KotlinTypeSystem {
     //   kotlin/Operator.kt (annotations)
     //   kotlin/ranges/Ranges.kt → ClosedRange, rangeTo()
     // ──────────────────────────────────────────────────────────────
-    private fun demoOperatorOverloading() {
-        println("\n--- 3.4 Operator Overloading ---")
+    private fun demo34OperatorOverloading() {
+        Lab.section("3.4", "Operator Overloading")
 
         val v1 = Vec2(3.0, 4.0)
         val v2 = Vec2(1.0, 2.0)

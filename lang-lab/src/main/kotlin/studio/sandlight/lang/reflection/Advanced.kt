@@ -1,24 +1,25 @@
 package studio.sandlight.lang.reflection
 
-// LEVEL 3: Advanced — 动态代理、性能、安全、高级模式
-
+import studio.sandlight.lang.support.Lab
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
-import java.lang.reflect.Modifier
 import java.lang.reflect.Proxy
+import kotlin.system.measureNanoTime
+import kotlin.time.measureTimedValue
+
+// LEVEL 3: Advanced — 动态代理、性能、安全、高级模式
+// (support classes live in AdvancedSupport.kt)
 
 object Advanced {
 
     fun run() {
-        println("⚡ LEVEL 3: ADVANCED - Dynamic Proxies, Performance, Security")
-        println("=".repeat(60))
 
-        demo11DynamicProxies()
-        demo12AdvancedAnnotations()
-        demo13PerformanceConsiderations()
-        demo14SecurityAspects()
-        demo15AdvancedPatterns()
+        demo31DynamicProxies()
+        demo32AdvancedAnnotations()
+        demo33PerformanceConsiderations()
+        demo34SecurityAspects()
+        demo35AdvancedPatterns()
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -46,24 +47,25 @@ object Advanced {
     //   java.base/java/lang/reflect/Proxy.java     → newProxyInstance() / ProxyBuilder
     //   java.base/java/lang/reflect/WeakCache.java ← 代理类缓存机制
     // ──────────────────────────────────────────────────────────────
-    private fun demo11DynamicProxies() {
-        println("\n--- 3.1 Dynamic Proxies ---")
+    private fun demo31DynamicProxies() {
+        Lab.section("3.1", "Dynamic Proxies")
 
         val handler = object : InvocationHandler {
             private val target = ServiceImpl()
 
             override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any? {
                 println("Before method: ${method?.name}")
-                val start = System.nanoTime()
 
-                val result = try {
-                    method?.invoke(target, *(args ?: emptyArray()))
-                } catch (e: InvocationTargetException) {
-                    throw e.targetException
+                // measureTimedValue gives both the result and the duration.
+                val (result, duration) = measureTimedValue {
+                    try {
+                        method?.invoke(target, *(args ?: emptyArray()))
+                    } catch (e: InvocationTargetException) {
+                        throw e.targetException
+                    }
                 }
 
-                val duration = System.nanoTime() - start
-                println("After method: ${method?.name} (took ${duration}ns)")
+                println("After method: ${method?.name} (took ${duration.inWholeNanoseconds}ns)")
                 return result
             }
         }
@@ -119,8 +121,8 @@ object Advanced {
     // 阅读：java.base/java/lang/annotation/Inherited.java
     //       java.base/java/lang/annotation/Repeatable.java
     // ──────────────────────────────────────────────────────────────
-    private fun demo12AdvancedAnnotations() {
-        println("\n--- 3.2 Advanced Annotation Processing ---")
+    private fun demo32AdvancedAnnotations() {
+        Lab.section("3.2", "Advanced Annotation Processing")
 
         val processor = AnnotationProcessor()
         val instance  = AdvancedAnnotatedClass()
@@ -172,8 +174,8 @@ object Advanced {
     // 阅读：java.base/java/lang/invoke/MethodHandles.java
     //       java.base/java/lang/invoke/MethodHandle.java
     // ──────────────────────────────────────────────────────────────
-    private fun demo13PerformanceConsiderations() {
-        println("\n--- 3.3 Performance Considerations ---")
+    private fun demo33PerformanceConsiderations() {
+        Lab.section("3.3", "Performance Considerations")
 
         val testClass  = PerformanceTest::class.java
         val instance   = testClass.getDeclaredConstructor().newInstance()
@@ -182,17 +184,17 @@ object Advanced {
         println("Method lookup performance ($iterations iterations):")
 
         val cachedMethod = testClass.getMethod("fastMethod", String::class.java)
-        val start1       = System.nanoTime()
-        repeat(iterations) { cachedMethod.invoke(instance, "test") }
-        val duration1    = System.nanoTime() - start1
+        val duration1 = measureNanoTime {
+            repeat(iterations) { cachedMethod.invoke(instance, "test") }
+        }
         println("Cached method: ${duration1 / 1_000_000}ms")
 
-        val start2 = System.nanoTime()
-        repeat(iterations) {
-            val method = testClass.getMethod("fastMethod", String::class.java)
-            method.invoke(instance, "test")
+        val duration2 = measureNanoTime {
+            repeat(iterations) {
+                val method = testClass.getMethod("fastMethod", String::class.java)
+                method.invoke(instance, "test")
+            }
         }
-        val duration2 = System.nanoTime() - start2
         println("Repeated lookup: ${duration2 / 1_000_000}ms")
         println("Performance difference: ${duration2 / duration1.toDouble()}x slower")
 
@@ -203,17 +205,17 @@ object Advanced {
             java.lang.invoke.MethodType.methodType(String::class.java, String::class.java)
         )
 
-        val start3    = System.nanoTime()
-        repeat(iterations) { methodHandle.invoke(instance, "test") }
-        val duration3 = System.nanoTime() - start3
+        val duration3 = measureNanoTime {
+            repeat(iterations) { methodHandle.invoke(instance, "test") }
+        }
         println("MethodHandle: ${duration3 / 1_000_000}ms")
         println("MethodHandle vs Reflection: ${duration1 / duration3.toDouble()}x faster")
 
         val field  = testClass.getDeclaredField("data")
         field.isAccessible = true
-        val start4 = System.nanoTime()
-        repeat(iterations) { field.set(instance, "new value"); field.get(instance) }
-        val duration4 = System.nanoTime() - start4
+        val duration4 = measureNanoTime {
+            repeat(iterations) { field.set(instance, "new value"); field.get(instance) }
+        }
         println("Field access: ${duration4 / 1_000_000}ms")
 
         println("\nSecurity considerations:")
@@ -244,8 +246,8 @@ object Advanced {
     //
     // 阅读：java.base/java/lang/Module.java → isOpen() / addOpens()
     // ──────────────────────────────────────────────────────────────
-    private fun demo14SecurityAspects() {
-        println("\n--- 3.4 Security Aspects ---")
+    private fun demo34SecurityAspects() {
+        Lab.section("3.4", "Security Aspects")
 
         val secureClass = SecureClass::class.java
 
@@ -304,8 +306,8 @@ object Advanced {
     //   SimpleObjectMapper → Map → POJO 映射
     //   ReflectionToStringBuilder → 自动生成 toString
     // ──────────────────────────────────────────────────────────────
-    private fun demo15AdvancedPatterns() {
-        println("\n--- 3.5 Advanced Reflection Patterns ---")
+    private fun demo35AdvancedPatterns() {
+        Lab.section("3.5", "Advanced Reflection Patterns")
 
         val builder = ReflectionBuilder(ReflectionPerson::class.java)
         val person  = builder
@@ -335,225 +337,3 @@ object Advanced {
 // ══════════════════════════════════════════════════════════════════
 // Level 3 支撑类
 // ══════════════════════════════════════════════════════════════════
-
-interface Service {
-    fun doWork(data: String): String
-    fun calculate(a: Int, b: Int): Int
-}
-
-class ServiceImpl : Service {
-    override fun doWork(data: String): String = "Processed: $data"
-    override fun calculate(a: Int, b: Int): Int = a + b
-}
-
-@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.RUNTIME)
-@java.lang.annotation.Inherited
-annotation class Cacheable(val timeout: Int = 30)
-
-@Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Audited(val level: String = "INFO")
-
-@Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.RUNTIME)
-@Repeatable
-annotation class Tag(val value: String)
-
-@Cacheable(timeout = 60)
-open class AdvancedAnnotatedClass {
-    @Cacheable(timeout = 120)
-    open fun cachedMethod(): String = "cached"
-}
-
-class ChildAnnotatedClass : AdvancedAnnotatedClass() {
-    @Audited(level = "DEBUG")
-    fun auditedOperation(): String = "audited"
-
-    @Tag("important")
-    @Tag("user-facing")
-    @Tag("api")
-    fun multiTaggedMethod(): String = "tagged"
-}
-
-class AnnotationProcessor {
-    fun process(instance: Any) {
-        val clazz = instance.javaClass
-        println("Processing annotations for: ${clazz.simpleName}")
-
-        clazz.annotations.forEach { annotation ->
-            when (annotation) {
-                is Cacheable -> println("  Class cached with timeout: ${annotation.timeout}")
-                else         -> println("  Class annotation: $annotation")
-            }
-        }
-
-        clazz.methods.forEach { method ->
-            method.annotations.forEach { annotation ->
-                when (annotation) {
-                    is Cacheable -> println("  Method ${method.name} cached with timeout: ${annotation.timeout}")
-                    is Audited   -> println("  Method ${method.name} audited at level: ${annotation.level}")
-                    else         -> println("  Method ${method.name} annotation: $annotation")
-                }
-            }
-        }
-    }
-}
-
-class PerformanceTest {
-    var data: String = "test data"
-    fun fastMethod(input: String): String = "Result: $input"
-}
-
-class SecureClass {
-    private val secretKey: String = "top-secret-key-123"
-    val publicData: String = "public information"
-}
-
-object SafeReflectionUtils {
-    fun getFieldValue(instance: Any, fieldName: String): Any? {
-        val clazz = instance.javaClass
-        return try {
-            val field = clazz.getDeclaredField(fieldName)
-            if (!Modifier.isPublic(field.modifiers)) {
-                throw IllegalAccessException("Field $fieldName is not public")
-            }
-            field.get(instance)
-        } catch (e: NoSuchFieldException) {
-            throw IllegalArgumentException("Field $fieldName not found in ${clazz.simpleName}")
-        }
-    }
-}
-
-class ReflectionBuilder<T>(private val clazz: Class<T>) {
-    private val values = mutableMapOf<String, Any?>()
-
-    fun set(fieldName: String, value: Any?): ReflectionBuilder<T> {
-        values[fieldName] = value
-        return this
-    }
-
-    fun build(): T {
-        val instance = clazz.getDeclaredConstructor().newInstance()
-        values.forEach { (fieldName, value) ->
-            try {
-                val field = clazz.getDeclaredField(fieldName)
-                field.isAccessible = true
-                field.set(instance, value)
-            } catch (e: NoSuchFieldException) {
-                println("Warning: Field $fieldName not found in ${clazz.simpleName}")
-            }
-        }
-        return instance
-    }
-}
-
-class SimpleDIContainer {
-    private val registry  = mutableMapOf<Class<*>, () -> Any>()
-    private val instances = mutableMapOf<Class<*>, Any>()
-
-    fun <T> register(type: Class<T>, factory: () -> T) {
-        @Suppress("UNCHECKED_CAST")
-        registry[type] = factory as () -> Any
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T> get(type: Class<T>): T {
-        return instances.getOrPut(type) {
-            val factory  = registry[type] ?: throw IllegalArgumentException("Type not registered: ${type.simpleName}")
-            val instance = factory()
-            injectDependencies(instance)
-            instance
-        } as T
-    }
-
-    private fun injectDependencies(instance: Any) {
-        instance.javaClass.declaredFields.forEach { field ->
-            if (field.isAnnotationPresent(Inject::class.java)) {
-                field.isAccessible = true
-                field.set(instance, get(field.type))
-            }
-        }
-    }
-}
-
-@Target(AnnotationTarget.FIELD)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Inject
-
-interface DatabaseService {
-    fun save(data: String)
-}
-
-class DatabaseServiceImpl : DatabaseService {
-    override fun save(data: String) {
-        println("Saving to database: $data")
-    }
-}
-
-interface UserService {
-    fun createUser(name: String)
-}
-
-class UserServiceImpl : UserService {
-    @Inject
-    lateinit var databaseService: DatabaseService
-
-    override fun createUser(name: String) {
-        println("Creating user: $name")
-        databaseService.save("User: $name")
-    }
-}
-
-class SimpleObjectMapper {
-    fun <T> map(data: Map<String, Any>, targetClass: Class<T>): T {
-        val instance = targetClass.getDeclaredConstructor().newInstance()
-        data.forEach { (key, value) ->
-            try {
-                val field = targetClass.getDeclaredField(key)
-                field.isAccessible = true
-                val convertedValue = when {
-                    field.type == value.javaClass                    -> value
-                    field.type == Int::class.java && value is Number -> value.toInt()
-                    field.type == String::class.java                 -> value.toString()
-                    else                                             -> value
-                }
-                field.set(instance, convertedValue)
-            } catch (e: NoSuchFieldException) {
-                println("Warning: Field $key not found in ${targetClass.simpleName}")
-            } catch (e: Exception) {
-                println("Warning: Cannot set field $key: ${e.message}")
-            }
-        }
-        return instance
-    }
-}
-
-data class ReflectionPerson(
-    var name:  String = "",
-    var age:   Int    = 0,
-    var email: String = ""
-)
-
-class ComplexObject {
-    val id:     Long          = 12345
-    val name:   String        = "Complex"
-    private val secret: String = "hidden"
-    val list:   List<String>  = listOf("a", "b", "c")
-}
-
-class ReflectionToStringBuilder {
-    fun toString(obj: Any): String {
-        val clazz  = obj.javaClass
-        val fields = mutableListOf<String>()
-        clazz.declaredFields.forEach { field ->
-            field.isAccessible = true
-            try {
-                fields.add("${field.name}=${field.get(obj)}")
-            } catch (e: Exception) {
-                fields.add("${field.name}=<inaccessible>")
-            }
-        }
-        return "${clazz.simpleName}(${fields.joinToString(", ")})"
-    }
-}

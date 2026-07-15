@@ -1,6 +1,8 @@
 // LEVEL 2: NIO.2 Files — java.nio.file 现代文件 API（Java 7+）
 package studio.sandlight.lang.io
 
+import studio.sandlight.lang.support.Lab
+
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption.*
@@ -9,7 +11,6 @@ import java.nio.file.attribute.BasicFileAttributes
 object NioFiles {
 
     fun run() {
-        println("\n=== LEVEL 2: NIO.2 Files ===\n")
         demo21PathOperations()
         demo22FilesReadWrite()
         demo23FileMetadata()
@@ -45,7 +46,7 @@ object NioFiles {
     //       java.nio.file.Paths.get() → FileSystems.getDefault().getPath()
     // ─────────────────────────────────────────────────────────────────────
     private fun demo21PathOperations() {
-        println("--- 2.1 Path Operations ---")
+        Lab.section("2.1", "Path Operations")
 
         // Path.of with varargs — segments joined with OS separator
         val base = Path.of("/tmp", "nio-lab", "data")
@@ -111,7 +112,7 @@ object NioFiles {
     //       → Channels.newWriter() → FileChannel + Charset
     // ─────────────────────────────────────────────────────────────────────
     private fun demo22FilesReadWrite() {
-        println("--- 2.2 Files: Read and Write ---")
+        Lab.section("2.2", "Files: Read and Write")
 
         val tmp = Files.createTempFile("nio-demo", ".txt")
         try {
@@ -165,7 +166,7 @@ object NioFiles {
     //       sun.nio.fs.UnixFileAttributeViews → stat() syscall
     // ─────────────────────────────────────────────────────────────────────
     private fun demo23FileMetadata() {
-        println("--- 2.3 File Metadata ---")
+        Lab.section("2.3", "File Metadata")
 
         val tmp = Files.createTempFile("nio-meta", ".txt")
         try {
@@ -219,7 +220,7 @@ object NioFiles {
     //       → FileTreeWalker.visit() — 底层用 DirectoryStream
     // ─────────────────────────────────────────────────────────────────────
     private fun demo24FilesWalk() {
-        println("--- 2.4 Files.walk ---")
+        Lab.section("2.4", "Files.walk")
 
         val root = Files.createTempDirectory("nio-walk")
         try {
@@ -289,7 +290,7 @@ object NioFiles {
     //       sun.nio.fs.UnixCopyFile → copyFile() — sendfile() or read/write loop
     // ─────────────────────────────────────────────────────────────────────
     private fun demo25FileOperations() {
-        println("--- 2.5 File Operations: copy, move, delete ---")
+        Lab.section("2.5", "File Operations: copy, move, delete")
 
         val tmpDir = Files.createTempDirectory("nio-ops")
         try {

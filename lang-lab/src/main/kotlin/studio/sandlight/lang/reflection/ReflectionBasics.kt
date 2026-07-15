@@ -1,5 +1,8 @@
 package studio.sandlight.lang.reflection
 
+import studio.sandlight.lang.support.Level
+import studio.sandlight.lang.support.Topic
+
 // ┌─────────────────────────────────────────────────────────────────┐
 // │                   Java Reflection API 总览                       │
 // │                                                                 │
@@ -24,50 +27,13 @@ package studio.sandlight.lang.reflection
 // │  JDK 源码入口: java.base/java/lang/Class.java                   │
 // └─────────────────────────────────────────────────────────────────┘
 
-object ReflectionBasics {
-
-    fun run(args: Array<String>) {
-        if (args.size < 2) {
-            printReflectionUsage()
-            return
-        }
-
-        when (args[1].lowercase()) {
-            "basic", "foundation", "1" -> Foundation.run()
-            "intermediate", "2"        -> Intermediate.run()
-            "advanced", "3"            -> Advanced.run()
-            "expert", "4"              -> Expert.run()
-            "all"                      -> runAllLevels()
-            else -> {
-                println("Unknown reflection level: ${args[1]}\n")
-                printReflectionUsage()
-            }
-        }
-    }
-
-    private fun printReflectionUsage() {
-        println("""
-        |Java Reflection Learning Levels:
-        |  basic/1         - Foundation: Class objects, fields, methods, constructors
-        |  intermediate/2  - Generics, annotations, arrays, nested classes
-        |  advanced/3      - Dynamic proxies, performance, security
-        |  expert/4        - Custom classloaders, framework patterns
-        |  all             - Run all levels sequentially
-        |
-        |Examples:
-        |  ./gradlew :lang-lab:run --args="reflection basic" --quiet
-        |  ./gradlew :lang-lab:run --args="reflection intermediate" --quiet
-        |  ./gradlew :lang-lab:run --args="reflection all" --quiet
-        """.trimMargin())
-    }
-
-    private fun runAllLevels() {
-        Foundation.run()
-        println("\n" + "=".repeat(60) + "\n")
-        Intermediate.run()
-        println("\n" + "=".repeat(60) + "\n")
-        Advanced.run()
-        println("\n" + "=".repeat(60) + "\n")
-        Expert.run()
-    }
+object ReflectionBasics : Topic {
+    override val name = "reflection"
+    override val description = "Java reflection from basic to expert level"
+    override val levels = listOf(
+        Level(1, "foundation", "FOUNDATION - Class Objects, Fields, Methods, Constructors", Foundation::run, aliases = listOf("basic")),
+        Level(2, "intermediate", "INTERMEDIATE - Generics, Annotations, Arrays, Nested Classes", Intermediate::run),
+        Level(3, "advanced", "ADVANCED - Dynamic Proxies, Performance, Security", Advanced::run),
+        Level(4, "expert", "EXPERT - ClassLoaders, Frameworks, Real-world Patterns", Expert::run),
+    )
 }

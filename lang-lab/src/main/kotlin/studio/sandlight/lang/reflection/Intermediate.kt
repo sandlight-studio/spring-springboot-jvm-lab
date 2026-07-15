@@ -1,5 +1,7 @@
 package studio.sandlight.lang.reflection
 
+import studio.sandlight.lang.support.Lab
+
 // LEVEL 2: Intermediate — 泛型、注解、数组、嵌套类
 
 import java.lang.reflect.GenericArrayType
@@ -9,14 +11,12 @@ import java.lang.reflect.ParameterizedType
 object Intermediate {
 
     fun run() {
-        println("🚀 LEVEL 2: INTERMEDIATE - Generics, Annotations, Arrays, Nested Classes")
-        println("=".repeat(65))
 
-        demo6GenericTypes()
-        demo7Annotations()
-        demo8ArrayManipulation()
-        demo9NestedClasses()
-        demo10AccessControl()
+        demo21GenericTypes()
+        demo22Annotations()
+        demo23ArrayManipulation()
+        demo24NestedClasses()
+        demo25AccessControl()
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -53,8 +53,8 @@ object Intermediate {
     //   java.base/sun/reflect/generics/reflectiveObjects/ParameterizedTypeImpl.java
     //   java.base/sun/reflect/generics/parser/SignatureParser.java  ← 解析 Signature 属性
     // ──────────────────────────────────────────────────────────────
-    private fun demo6GenericTypes() {
-        println("\n--- 2.1 Generic Type Information ---")
+    private fun demo21GenericTypes() {
+        Lab.section("2.1", "Generic Type Information")
 
         val listField = GenericContainer::class.java.getDeclaredField("stringList")
         val genericType = listField.genericType
@@ -110,8 +110,8 @@ object Intermediate {
     // 阅读：java.base/java/lang/annotation/Retention.java
     //       java.base/java/lang/reflect/AnnotatedElement.java  ← 获取注解的公共接口
     // ──────────────────────────────────────────────────────────────
-    private fun demo7Annotations() {
-        println("\n--- 2.2 Annotations Processing ---")
+    private fun demo22Annotations() {
+        Lab.section("2.2", "Annotations Processing")
 
         val clazz = AnnotatedSample::class.java
 
@@ -175,8 +175,8 @@ object Intermediate {
     //
     // 阅读：java.base/java/lang/reflect/Array.java（大量 native 方法）
     // ──────────────────────────────────────────────────────────────
-    private fun demo8ArrayManipulation() {
-        println("\n--- 2.3 Array Manipulation ---")
+    private fun demo23ArrayManipulation() {
+        Lab.section("2.3", "Array Manipulation")
 
         val intArray    = java.lang.reflect.Array.newInstance(Int::class.java, 5) as IntArray
         val stringArray = java.lang.reflect.Array.newInstance(String::class.java, 3) as Array<String>
@@ -227,8 +227,8 @@ object Intermediate {
     //                                       → getEnclosingClass()
     //                                       → isMemberClass() / isAnonymousClass()
     // ──────────────────────────────────────────────────────────────
-    private fun demo9NestedClasses() {
-        println("\n--- 2.4 Nested and Inner Classes ---")
+    private fun demo24NestedClasses() {
+        Lab.section("2.4", "Nested and Inner Classes")
 
         val outerClass = OuterClass::class.java
 
@@ -281,8 +281,8 @@ object Intermediate {
     // 阅读：java.base/java/lang/reflect/AccessibleObject.java
     //       → checkAccess() / setAccessible()
     // ──────────────────────────────────────────────────────────────
-    private fun demo10AccessControl() {
-        println("\n--- 2.5 Advanced Access Control ---")
+    private fun demo25AccessControl() {
+        Lab.section("2.5", "Advanced Access Control")
 
         val restrictedClass = RestrictedClass::class.java
         val instance        = restrictedClass.getDeclaredConstructor().newInstance()

@@ -1,5 +1,8 @@
 package studio.sandlight.lang.collections
 
+import studio.sandlight.lang.support.Level
+import studio.sandlight.lang.support.Topic
+
 // ══════════════════════════════════════════════════════════════════
 // Kotlin Collection Type Hierarchy:
 //
@@ -31,16 +34,13 @@ package studio.sandlight.lang.collections
 //   kotlin/collections/_Maps.kt         → mapOf(), mutableMapOf()
 // ══════════════════════════════════════════════════════════════════
 
-object CollectionsBasics {
-
-    fun run() {
-        println("=".repeat(65))
-        println("Kotlin Collections — 4 levels")
-        println("=".repeat(65))
-
-        Foundation.run()
-        Functional.run()
-        Sequences.run()
-        Interop.run()
-    }
+object CollectionsBasics : Topic {
+    override val name = "collections"
+    override val description = "Lists, sets, maps, sequences"
+    override val levels = listOf(
+        Level(1, "foundation", "FOUNDATION - Collection Types & Basics", Foundation::run),
+        Level(2, "functional", "FUNCTIONAL - Transformations, Aggregation, Grouping", Functional::run),
+        Level(3, "sequences", "SEQUENCES - Lazy Evaluation & Pipeline Optimization", Sequences::run),
+        Level(4, "interop", "INTEROP & ADVANCED - Java Collections, Concurrency, Performance", Interop::run),
+    )
 }
