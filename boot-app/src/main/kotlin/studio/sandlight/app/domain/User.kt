@@ -1,16 +1,18 @@
 package studio.sandlight.app.domain
 
 import jakarta.persistence.*
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotBlank
 import java.time.Instant
 
+/**
+ * A regular class (not a data class): JPA entities have identity beyond their
+ * fields, and data-class equals/hashCode/copy interact badly with proxies and
+ * generated ids. Input validation lives on the web DTO (CreateUserRequest),
+ * not here — annotations on the entity would never be triggered by save().
+ */
 @Entity
 @Table(name = "users")
 class User(
-    @field:NotBlank
     var name: String,
-    @field:Email
     @Column(unique = true)
     var email: String,
 ) {
@@ -19,4 +21,3 @@ class User(
 
     var createdAt: Instant = Instant.now()
 }
-

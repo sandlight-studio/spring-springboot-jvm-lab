@@ -1,32 +1,24 @@
 package studio.sandlight.app.web
 
 import jakarta.validation.Valid
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotBlank
 import org.springframework.http.HttpStatus
-import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.bind.annotation.*
-import studio.sandlight.app.domain.User
-import studio.sandlight.app.repo.UserRepository
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
+import studio.sandlight.app.service.UserService
 
 @RestController
 @RequestMapping("/api/users")
-class UserController(private val repo: UserRepository) {
+class UserController(private val users: UserService) {
 
     @GetMapping
-    fun list(): List<User> = repo.findAll()
-
-    data class CreateUserRequest(
-        @field:NotBlank val name: String,
-        @field:Email val email: String,
-    )
+    fun list(): List<UserResponse> = users.list().map { it.toResponse() }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Transactional
-    fun create(@Valid @RequestBody body: CreateUserRequest): User {
-        require(!repo.existsByEmail(body.email)) { "email already exists" }
-        return repo.save(User(name = body.name, email = body.email))
-    }
+    fun create(@Valid @RequestBody body: CreateUserRequest): UserResponse =
+        users.create(name = body.name, email = body.email).toResponse()
 }
-

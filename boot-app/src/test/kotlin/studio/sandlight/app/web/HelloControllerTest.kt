@@ -3,13 +3,18 @@ package studio.sandlight.app.web
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.http.MediaType
 import org.springframework.test.context.TestPropertySource
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.web.context.WebApplicationContext
 
+/**
+ * @AutoConfigureMockMvc lets Boot build and inject the MockMvc instance;
+ * no manual MockMvcBuilders wiring per test class.
+ */
 @SpringBootTest
+@AutoConfigureMockMvc
 @TestPropertySource(
     properties = [
         "app.greeting=Hi",
@@ -18,12 +23,11 @@ import org.springframework.web.context.WebApplicationContext
     ],
 )
 class HelloControllerTest(
-    @Autowired private val wac: WebApplicationContext,
+    @param:Autowired private val mvc: MockMvc,
 ) {
 
     @Test
     fun `GET api hello returns expected shape`() {
-        val mvc = MockMvcBuilders.webAppContextSetup(wac).build()
         mvc.get("/api/hello") {
             accept = MediaType.APPLICATION_JSON
         }
