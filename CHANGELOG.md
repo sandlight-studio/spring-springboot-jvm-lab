@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.4] - 2026-08-27
+
+### Changed
+
+- Replace the MIT license with Apache-2.0, aligning with the other public repositories in the organization.
+- Repository transferred from `Jimmy-Smo` to the `sandlight-studio` organization.
+
 ## [0.0.3] - 2026-07-15
 
 ### Added

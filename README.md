@@ -5,7 +5,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.2-6DB33F?logo=springboot)
 ![Gradle](https://img.shields.io/badge/Gradle-9.3.0-02303A?logo=gradle)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)
 
 A Kotlin + Spring multi-module monorepo for learning Spring Framework core (no Boot), Spring Boot, and JVM performance tooling (JFR, GC, benchmarking). Gradle (Kotlin DSL), JDK 25, Kotlin 2.3.0.
 

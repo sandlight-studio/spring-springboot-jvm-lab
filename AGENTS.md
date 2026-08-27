@@ -35,3 +35,7 @@
 - No secrets in repo. Use env vars or external configs (`application-*.properties`).
 - Use Spring profiles (`spring.profiles.active=dev|test|prod`).
 - Restrict Actuator endpoints outside dev; default DB is H2 for local.
+
+## Release
+
+See [RELEASING.md](RELEASING.md) for `dev` → `main` PR, tags (no `v` prefix), and merging `main` back into `dev`.
